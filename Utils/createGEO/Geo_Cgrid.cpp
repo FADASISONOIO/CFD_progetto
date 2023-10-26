@@ -53,11 +53,11 @@ public:
         cin >> TEspacing;
         cout << endl;
 
-
-//fileName = "/home/bellosta/Code/printGeo/testcase/naca0012.txt";
-//LEspacing = 0.01;
-//TEspacing = 0.2;
-
+/*
+fileName = "C:/Bash/SU2/GIT_CFD/CFD_progetto/Utils/createGEO/txt_dat/main.dat";
+LEspacing = 0.01;
+TEspacing = 0.2;
+*/
     }
 
     void loadPoints() {
@@ -209,7 +209,17 @@ public:
             output << "h = 0.0005;\n";
             if (isProfile) {
                 output << "H = 1;\n";
-                output << "R = 10;\n\n";
+                output << "R = 10;\n";
+                output << "D = 1;\n";
+                output << "npW = 100;\n";
+                output << "npS = 100;\n";
+                output << "npP = 150;\n";
+                output << "npD = 100;\n";
+                output << "progW = 1.1;\n";
+                output << "progS = 1.05;\n";
+                output << "progP = 1;\n";
+                output << "progD = 1.1;\n";
+                output << "bumpP = 0.1;\n";
             }
             output << "// =====================================POINTS\n";
 
@@ -222,24 +232,26 @@ public:
             if (isProfile) {
 
                 output << "\n // farfield\n";
-                output << "Point(" << nPoints + 2 << ") = {0, 0, 0, H};\n";
-                output << "Point(" << nPoints + 3 << ") = {R, 0, 0, H};\n";
-                output << "Point(" << nPoints + 4 << ") = {0, R, 0, H};\n";
-                output << "Point(" << nPoints + 5 << ") = {-R, 0, 0, H};\n";
-                output << "Point(" << nPoints + 6 << ") = {0, -R, 0, H};\n";
-                output << "Point(" << nPoints + 7 << ") = {0,  D, 0, H};\n";
-                output << "Point(" << nPoints + 8 << ") = {0, -D, 0, H};\n";
+                output << "Point(" << nPoints + 2 << ") = {0.5, 0, 0};\n";
+                output << "Point(" << nPoints + 3 << ") = {R+0.5, 0, 0};\n";
+                output << "Point(" << nPoints + 4 << ") = {0.5, R, 0};\n";
+                output << "Point(" << nPoints + 5 << ") = {0.5-R, 0, 0};\n";
+                output << "Point(" << nPoints + 6 << ") = {0, -R, 0};\n";
+                output << "Point(" << nPoints + 7 << ") = {R+0.5,  -D, 0};\n";
+                output << "Point(" << nPoints + 8 << ") = {1, -D, 0};\n";
+                output << "Point(" << nPoints + 9 << ") = {0, -D, 0};\n";
+                output << "Point(" << nPoints + 10 << ") = {0.5-R, -D, 0};\n";
 
                 output << "\n\n// =====================================CURVES\n\n";
 
                 output << "Spline(1) = {1:" << UPid + 1 << "};\n";
                 output << "Spline(2) = {" << UPid + 1 << ":" << LEid + 1 << "};\n";
-                output << "Spline(3) = {" << LEid + 1 << ":" << LOid + 1 << "};\n";
+                /*output << "Spline(3) = {" << LEid + 1 << ":" << LOid + 1 << "};\n";
                 if (bluntTE)
 		    output << "Spline(4) = {" << LOid + 1 << ":" << nPoints << "};\n";
 		else
-		    output << "Spline(4) = {" << LOid + 1 << ":" << nPoints-1 << ", 1};\n";
-
+		    output << "Spline(4) = {" << LOid + 1 << ":" << nPoints-1 << ", 1};\n";*/
+                output << "Spline(3) = {" << LEid + 1 << ":" << nPoints-1 << ", 1};\n";
 
                 if (bluntTE)
                     output << "Line(9) = {" << nPoints << ",1};\n";
@@ -249,25 +261,62 @@ public:
                 output << "Circle(6) = {" << nPoints + 4 << "," << nPoints + 2 << "," << nPoints + 5 << "};\n";
                 output << "Line(7) = {" << nPoints + 3 << "," << nPoints + 7 << "};\n";
                 output << "Line(8) = {" << nPoints + 7 << "," << nPoints + 8 << "};\n";
-                output << "Line(9) = {" << nPoints + 8 << "," << nPoints + 5 << "};\n";
+                output << "Line(9) = {" << nPoints + 8 << "," << nPoints + 9 << "};\n";
+                output << "Line(10) = {" << nPoints + 9 << "," << nPoints + 10 << "};\n";
+                output << "Line(11) = {" << nPoints + 10 << "," << nPoints + 5 << "};\n";
+                output << "Line(12) = {" << LEid +1 << "," << nPoints + 5 << "};\n";
+                output << "Line(13) = {" << nPoints + 3 << ",1};\n";
+                output << "Line(14) = {" << LEid +1 << "," << nPoints + 9 << "};\n";
+                output << "Line(15) = {1," << nPoints + 8 << "};\n";
+                output << "Line(16) = {" << UPid + 1<< "," << nPoints + 4 << "};\n";
 
+                /* Transfinite lines for near wall definition */
+                output << "Transfinite Line{" << 12 << " , " << 10 << " , " << 16 << "} = npW Using Progression progW;\n";
+                output << "Transfinite Line{" << 13 << " , " << 8 << "} = npW Using Progression 1/progW;\n";
+
+                output << "Transfinite Line{" << 7 << " , " << 14 << ", " << 15 << "} = npD Using Progression progD;\n";
+                output << "Transfinite Line{" << 11 << "} = npD Using Progression 1/progD;\n";
+
+                output << "Transfinite Line{" << 6 << "} = npS Using Progression 1/progS;\n";
+                output << "Transfinite Line{" << 5 << "} = npS Using Progression progS;\n";
+                output << "Transfinite Line{" << 2 << "} = npS Using Progression 1/progS;\n";
+                output << "Transfinite Line{" << 1 << "} = npS Using Progression progS;\n";
+                
+                output << "Transfinite Line{" << 3 << "} = npP Using Bump bumpP;\n";
+                output << "Transfinite Line{" << 9 << "} = npP Using Progression 1;\n";
+                
+                
+                
                 output << "\n\n// =====================================LOOPS\n\n";
                 if (bluntTE)
-                    output << "Line Loop(1) = {1,2,3,4,9};\n";
+                    output << "Line Loop(1) = {1,2,3,9};\n";
                 else
-                    output << "Line Loop(1) = {1,2,3,4};\n";
+                    output << "Line Loop(1) = {13,15,-8,-7};\n";
 
-                output << "Line Loop(2) = {-8,-7,-6,-5};\n";
+                output << "Line Loop(2) = {3,15,9,-14};\n";
+                output << "Line Loop(3) = {10,11,-12,14};\n";
+                output << "Line Loop(4) = {1,16,-5,13};\n";
+                output << "Line Loop(5) = {2,12,-6,-16};\n";
 
                 output << "\n\n// =====================================SURFS\n\n";
-                output << "Plane Surface(1) = {1,2};\n\n";
+                output << "Plane Surface(1) = {1};\n";
+                output << "Transfinite Surface{1};\n Recombine Surface{1};\n";
+                output << "Plane Surface(2) = {2};\n";
+                output << "Transfinite Surface{2};\n Recombine Surface{2};\n";
+                output << "Plane Surface(3) = {3};\n";
+                output << "Transfinite Surface{3};\n Recombine Surface{3};\n";
+                output << "Plane Surface(4) = {4};\n";
+                output << "Transfinite Surface{4};\n Recombine Surface{4};\n";
+                output << "Plane Surface(5) = {5};\n";
+                output << "Transfinite Surface{5};\n Recombine Surface{5};\n";
 
-                output << "Physical Surface(1) = {1};\n";
-                output << "Physical Line(\"FARFIELD\") = {5,6,7,8};\n";
+                output << "Physical Surface(1) = {1,2,3,4,5};\n";
+                output << "Physical Line(\"FARFIELD\") = {11,6,5,7};\n";
+                output << "Physical Line(\"WALL\") = {8,9,10};\n";
                 if (bluntTE)
-                    output << "Physical Line(\"AIRFOIL\") = {1,2,3,4,9};\n";
+                    output << "Physical Line(\"AIRFOIL\") = {1,2,3,9};\n";
                 else
-                    output << "Physical Line(\"AIRFOIL\") = {1,2,3,4};\n";
+                    output << "Physical Line(\"AIRFOIL\") = {1,2,3};\n";
             } else {
 
                 output << "\n // symmetry\n";
@@ -304,7 +353,7 @@ public:
 
             output << "\n\n// 1: MeshAdapt, 2: Automatic, 3: Initial mesh only, 5: Delaunay, 6: Frontal-Delaunay, "
                       "7: BAMG, 8: Frontal-Delaunay for Quads, 9: Packing of Parallelograms\n";
-            output << "Mesh.Algorithm = 1;\n";
+            output << "//Mesh.Algorithm = 1;\n";
             output << "\n//Mesh.RandomFactor = 1e-09;\n";
 
 
