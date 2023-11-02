@@ -214,6 +214,8 @@ TEspacing = 0.2;
                 output << "H = 1;\n";
                 output << "R = 10;\n";
                 output << "D = 1;\n";
+                output << "BL = 0.3;\n";
+                output << "AoA = 0.3;\n";
                 output << "npW = 100;\n";
                 output << "npS = 100;\n";
                 output << "npP = 150;\n";
@@ -240,10 +242,12 @@ TEspacing = 0.2;
                 output << "Point(" << nPoints + 4 << ") = {0.5, R, 0,H};\n";
                 output << "Point(" << nPoints + 5 << ") = {0.5-R, 0, 0,H};\n";
                 output << "Point(" << nPoints + 6 << ") = {0, -R, 0,H};\n";
-                output << "Point(" << nPoints + 7 << ") = {R+0.5,  -D, 0,H};\n";
-                output << "Point(" << nPoints + 8 << ") = {1, -D, 0,H};\n";
-                output << "Point(" << nPoints + 9 << ") = {0, -D, 0,H};\n";
-                output << "Point(" << nPoints + 10 << ") = {0.5-R, -D, 0,H};\n";
+                output << "Point(" << nPoints + 7 << ") = {R+0.5,  -D+BL, 0,1/5*H};\n";
+                output << "Point(" << nPoints + 8 << ") = {1, -D+BL, 0,1/5*H};\n";
+                output << "Point(" << nPoints + 9 << ") = {0, -D+BL, 0,1/5*H};\n";
+                output << "Point(" << nPoints + 10 << ") = {0.5-R, -D+BL, 0,1/5*H};\n";
+                output << "Point(" << nPoints + 11 << ") = {R+0.5,  -D, 0,1/5*H};\n";    
+                output << "Point(" << nPoints + 12 << ") = {0.5-R, -D, 0,1/5*H};\n";           
 
                 output << "\n\n// =====================================CURVES\n\n";
 
@@ -263,15 +267,15 @@ TEspacing = 0.2;
                 output << "Circle(5) = {" << nPoints + 3 << "," << nPoints + 2 << "," << nPoints + 4 << "};\n";
                 output << "Circle(6) = {" << nPoints + 4 << "," << nPoints + 2 << "," << nPoints + 5 << "};\n";
                 output << "Line(7) = {" << nPoints + 3 << "," << nPoints + 7 << "};\n";
-                output << "Line(8) = {" << nPoints + 7 << "," << nPoints + 8 << "};\n";
+                output << "Line(8) = {" << nPoints + 7 << "," << nPoints + 10 << "};\n";
                 output << "Line(9) = {" << nPoints + 8 << "," << nPoints + 9 << "};\n";
                 output << "Line(10) = {" << nPoints + 9 << "," << nPoints + 10 << "};\n";
                 output << "Line(11) = {" << nPoints + 10 << "," << nPoints + 5 << "};\n";
-                output << "Line(12) = {" << LEid +1 << "," << nPoints + 5 << "};\n";
-                output << "Line(13) = {" << nPoints + 3 << ",1};\n";
-                output << "Line(14) = {" << LEid +1 << "," << nPoints + 9 << "};\n";
-                output << "Line(15) = {1," << nPoints + 8 << "};\n";
-                output << "Line(16) = {" << UPid + 1<< "," << nPoints + 4 << "};\n";
+                output << "Line(12) = {" << nPoints + 11 << "," << nPoints + 12 << "};\n";
+                output << "Line(13) = {" << nPoints + 7 << "," << nPoints + 11 << "};\n";
+                output << "Line(14) = {" << nPoints + 12 << "," << nPoints + 10 << "};\n";
+                /*output << "Line(12) = {" << LEid +1 << "," << nPoints + 5 << "};\n"; */
+                /*output << "Line(13) = {" << nPoints + 3 << ",1};\n";*/ 
 
                 /* Transfinite lines for near wall definition */
                 /*
@@ -289,34 +293,44 @@ TEspacing = 0.2;
                 output << "Transfinite Line{" << 3 << "} = npP Using Bump bumpP;\n";
                 output << "Transfinite Line{" << 9 << "} = npP Using Progression 1;\n";
                 */
-                
+                output << "Transfinite Line{" << 8 << " , " << 12 << "} = 1000 Using Progression 1;\n";
+                output << "Transfinite Line{" << 13 << "} =  50 Using Progression 1/1.05;\n";
+                output << "Transfinite Line{" << 14 << "} =  50 Using Progression 1.05;\n";
                 
                 output << "\n\n// =====================================LOOPS\n\n";
                 if (bluntTE)
                     output << "Line Loop(1) = {1,2,3,9};\n";
                 else
-                    output << "Line Loop(1) = {13,15,-8,-7};\n";
+                    output << "Line Loop(1) = {1,2,3};\n";
 
-                output << "Line Loop(2) = {3,15,9,-14};\n";
-                output << "Line Loop(3) = {10,11,-12,14};\n";
-                output << "Line Loop(4) = {1,16,-5,13};\n";
-                output << "Line Loop(5) = {2,12,-6,-16};\n";
+                output << "Line Loop(2) = {-11,-8,-7,5,6};\n";
+                output << "Line Loop(3) = {-8,13,12,14};\n";
+
+                output << "Rotate {{0, 0, -1}, {0.5, 0, 0}, Pi * AoA / 180} \n {Curve{2}; Curve{1}; Curve{3};}\n";
+
+
 
                 output << "\n\n// =====================================SURFS\n\n";
-                output << "Plane Surface(1) = {1};\n";
-                /*output << "Transfinite Surface{1};\n Recombine Surface{1};\n";*/
-                output << "Plane Surface(2) = {2};\n";
-                /*output << "Transfinite Surface{2};\n Recombine Surface{2};\n";*/
-                output << "Plane Surface(3) = {3};\n";
-                /*output << "Transfinite Surface{3};\n Recombine Surface{3};\n";*/
-                output << "Plane Surface(4) = {4};\n";
-                /*output << "Transfinite Surface{4};\n Recombine Surface{4};\n";*/
-                output << "Plane Surface(5) = {5};\n";
-                /*output << "Transfinite Surface{5};\n Recombine Surface{5};\n";*/
-                output << "Recombine Surface(1) = {1,2,3,4,5};\n";
-                output << "Physical Surface(1) = {1};\n";
+                output << "Plane Surface(1) = {1,2};\n";
+                
+                output << "Plane Surface(2) = {3};\n";
+                output << "Transfinite Surface{2};\n Recombine Surface{2};\n";
+
+                // ==================================BOUNDARY LAYER
+                output << "Field[1]=BoundaryLayer;\n";
+                output << "Field[1].CurvesList={1,2,3};\n";
+                output << "Field[1].Quads=1;\n";
+                output << "Field[1].Ratio=1.1;\n";
+                output << "Field[1].Size=0.00001;\n";
+                output << "Field[1].Thickness=0.07;\n";
+                //Field[1].PointsList={1};
+                output << "Field[1].FanPointsList={1};\n";
+                output << "Field[1].FanPointsSizesList={40};\n";
+                output << "BoundaryLayer Field = 1;\n";
+
+                output << "Physical Surface(1) = {1,2};\n";
                 output << "Physical Line(\"FARFIELD\") = {11,6,5,7};\n";
-                output << "Physical Line(\"WALL\") = {8,9,10};\n";
+                output << "Physical Line(\"WALL\") = {12};\n";
                 if (bluntTE)
                     output << "Physical Line(\"AIRFOIL\") = {1,2,3,9};\n";
                 else
@@ -357,7 +371,7 @@ TEspacing = 0.2;
 
             output << "\n\n// 1: MeshAdapt, 2: Automatic, 3: Initial mesh only, 5: Delaunay, 6: Frontal-Delaunay, "
                       "7: BAMG, 8: Frontal-Delaunay for Quads, 9: Packing of Parallelograms\n";
-            output << "Mesh.Algorithm = 1;\n";
+            output << "Mesh.Algorithm = 2;\n";
             output << "\n//Mesh.RandomFactor = 1e-09;\n";
 
 

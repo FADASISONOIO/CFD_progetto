@@ -6,6 +6,8 @@ h = 0.0005;
 H = 1;
 R = 10;
 D = 1;
+BL = 0.3;
+AoA = 0.3;
 npW = 100;
 npS = 100;
 npP = 150;
@@ -224,10 +226,12 @@ Point(204) = {R+0.5, 0, 0,H};
 Point(205) = {0.5, R, 0,H};
 Point(206) = {0.5-R, 0, 0,H};
 Point(207) = {0, -R, 0,H};
-Point(208) = {R+0.5,  -D, 0,H};
-Point(209) = {1, -D, 0,H};
-Point(210) = {0, -D, 0,H};
-Point(211) = {0.5-R, -D, 0,H};
+Point(208) = {R+0.5,  -D+BL, 0,1/5*H};
+Point(209) = {1, -D+BL, 0,1/5*H};
+Point(210) = {0, -D+BL, 0,1/5*H};
+Point(211) = {0.5-R, -D+BL, 0,1/5*H};
+Point(212) = {R+0.5,  -D, 0,1/5*H};
+Point(213) = {0.5-R, -D, 0,1/5*H};
 
 
 // =====================================CURVES
@@ -240,41 +244,49 @@ Spline(3) = {101:200, 1};
 Circle(5) = {204,203,205};
 Circle(6) = {205,203,206};
 Line(7) = {204,208};
-Line(8) = {208,209};
+Line(8) = {208,211};
 Line(9) = {209,210};
 Line(10) = {210,211};
 Line(11) = {211,206};
-Line(12) = {101,206};
-Line(13) = {204,1};
-Line(14) = {101,210};
-Line(15) = {1,209};
-Line(16) = {46,205};
+Line(12) = {212,213};
+Line(13) = {208,212};
+Line(14) = {213,211};
+Transfinite Line{8 , 12} = 1000 Using Progression 1;
+Transfinite Line{13} =  50 Using Progression 1/1.05;
+Transfinite Line{14} =  50 Using Progression 1.05;
 
 
 // =====================================LOOPS
 
-Line Loop(1) = {13,15,-8,-7};
-Line Loop(2) = {3,15,9,-14};
-Line Loop(3) = {10,11,-12,14};
-Line Loop(4) = {1,16,-5,13};
-Line Loop(5) = {2,12,-6,-16};
+Line Loop(1) = {1,2,3};
+Line Loop(2) = {-11,-8,-7,5,6};
+Line Loop(3) = {-8,13,12,14};
+Rotate {{0, 0, -1}, {0.5, 0, 0}, Pi * AoA / 180} 
+ {Curve{2}; Curve{1}; Curve{3};}
 
 
 // =====================================SURFS
 
-Plane Surface(1) = {1};
-Plane Surface(2) = {2};
-Plane Surface(3) = {3};
-Plane Surface(4) = {4};
-Plane Surface(5) = {5};
-Recombine Surface(1) = {1,2,3,4,5};
-Physical Surface(1) = {1};
+Plane Surface(1) = {1,2};
+Plane Surface(2) = {3};
+Transfinite Surface{2};
+ Recombine Surface{2};
+Field[1]=BoundaryLayer;
+Field[1].CurvesList={1,2,3};
+Field[1].Quads=1;
+Field[1].Ratio=1.1;
+Field[1].Size=0.00001;
+Field[1].Thickness=0.07;
+Field[1].FanPointsList={1};
+Field[1].FanPointsSizesList={40};
+BoundaryLayer Field = 1;
+Physical Surface(1) = {1,2};
 Physical Line("FARFIELD") = {11,6,5,7};
-Physical Line("WALL") = {8,9,10};
+Physical Line("WALL") = {12};
 Physical Line("AIRFOIL") = {1,2,3};
 
 
 // 1: MeshAdapt, 2: Automatic, 3: Initial mesh only, 5: Delaunay, 6: Frontal-Delaunay, 7: BAMG, 8: Frontal-Delaunay for Quads, 9: Packing of Parallelograms
-Mesh.Algorithm = 1;
+Mesh.Algorithm = 2;
 
 //Mesh.RandomFactor = 1e-09;
