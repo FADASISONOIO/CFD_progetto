@@ -55,8 +55,8 @@ public:
 
 /*
 fileName = "C:/Bash/SU2/GIT_CFD/CFD_progetto/Utils/createGEO/txt_dat/main.dat";*/
-LEspacing = 0.01;
-TEspacing = 0.2;
+LEspacing = 0.001;
+TEspacing = 0.02;
 
     }
 
@@ -209,7 +209,7 @@ TEspacing = 0.2;
             output << "// ===========================================\n";
             output << "// ==================================MESH FILE\n";
             output << "// ===========================================\n\n";
-            output << "h = 0.0005;\n";
+            output << "h = 0.0008;\n";
             if (isProfile) {
                 output << "H = 1;\n";
                 output << "R = 10;\n";
@@ -293,9 +293,9 @@ TEspacing = 0.2;
                 output << "Transfinite Line{" << 3 << "} = npP Using Bump bumpP;\n";
                 output << "Transfinite Line{" << 9 << "} = npP Using Progression 1;\n";
                 */
-                output << "Transfinite Line{" << 8 << " , " << 12 << "} = 1000 Using Progression 1;\n";
-                output << "Transfinite Line{" << 13 << "} =  50 Using Progression 1/1.05;\n";
-                output << "Transfinite Line{" << 14 << "} =  50 Using Progression 1.05;\n";
+                output << "Transfinite Line{" << 8 << " , " << 12 << "} = 300 Using Progression 1;\n";
+                output << "Transfinite Line{" << 13 << "} =  20 Using Progression 1/1.05;\n";
+                output << "Transfinite Line{" << 14 << "} =  20 Using Progression 1.05;\n";
                 
                 output << "\n\n// =====================================LOOPS\n\n";
                 if (bluntTE)
@@ -322,7 +322,7 @@ TEspacing = 0.2;
                 output << "Field[1].Quads=1;\n";
                 output << "Field[1].Ratio=1.1;\n";
                 output << "Field[1].Size=0.00001;\n";
-                output << "Field[1].Thickness=0.07;\n";
+                output << "Field[1].Thickness=0.04;\n";
                 //Field[1].PointsList={1};
                 output << "Field[1].FanPointsList={1};\n";
                 output << "Field[1].FanPointsSizesList={40};\n";

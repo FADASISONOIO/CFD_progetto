@@ -2,7 +2,7 @@
 // ==================================MESH FILE
 // ===========================================
 
-h = 0.0005;
+h = 0.0008;
 H = 1;
 R = 10;
 D = 1;
@@ -251,9 +251,9 @@ Line(11) = {211,206};
 Line(12) = {212,213};
 Line(13) = {208,212};
 Line(14) = {213,211};
-Transfinite Line{8 , 12} = 1000 Using Progression 1;
-Transfinite Line{13} =  50 Using Progression 1/1.05;
-Transfinite Line{14} =  50 Using Progression 1.05;
+Transfinite Line{8 , 12} = 300 Using Progression 1;
+Transfinite Line{13} =  20 Using Progression 1/1.05;
+Transfinite Line{14} =  20 Using Progression 1.05;
 
 
 // =====================================LOOPS
@@ -276,7 +276,7 @@ Field[1].CurvesList={1,2,3};
 Field[1].Quads=1;
 Field[1].Ratio=1.1;
 Field[1].Size=0.00001;
-Field[1].Thickness=0.07;
+Field[1].Thickness=0.04;
 Field[1].FanPointsList={1};
 Field[1].FanPointsSizesList={40};
 BoundaryLayer Field = 1;
