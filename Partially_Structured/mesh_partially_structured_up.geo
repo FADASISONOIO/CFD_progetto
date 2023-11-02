@@ -2,7 +2,7 @@
 // ==================================MESH FILE
 // ===========================================
 
-h = 0.0005;
+h = 0.001;
 H = 1;
 
 // =====================================POINTS
@@ -220,16 +220,29 @@ Spline(3) = {101:200, 1};
 
 
 // farfield
-Point(300) = {50, 25, 0, 5*H};
-Point(301) = {-25, 25, 0, 5*H};
+Point(300) = {50, 12.5, 0, 5*H};
+Point(301) = {-25, 12.5, 0, 5*H};
 Point(302) = {-25, -0.75, 0, 0.1*H};
 Point(303) = {50, -0.75, 0, 0.1*H};
+Point(306) = {50, 25, 0, 0.1*H};
+Point(307) = {-25, 25, 0, 0.1*H};
+Point(308) = {50, 25.25, 0, 0.1*H};
+Point(309) = {-25, 25.25, 0, 0.1*H};
 
 Line(4) = {300, 301};
 Line(5) = {301, 302};
 Line(6) = {302, 303};
 Line(7) = {303, 300};
+Line(12) = {300, 306};
+Line(13) = {306, 307};
+Line(14) = {307, 301};
+Line(15) = {306, 308};
+Line(16) = {308, 309};
+Line(17) = {309, 307};
 
+
+
+// farfield - ground
 Point(304) = {-25, -1, 0};
 Point(305) = {50, -1, 0};
 
@@ -238,15 +251,24 @@ Line(9) = {304, 305};
 Line(10) = {305, 303};
 Line(11) = {302, 303};
 
+
 Transfinite Line{8} = 30 Using Progression 1/1.1;
 Transfinite Line{10} = 30 Using Progression 1.1;
 Transfinite Line{6} = 1000 Using Progression 1;
 Transfinite Line{9} = 1000 Using Progression 1;
 
+Transfinite Line{15} = 30 Using Progression 1/1.1;
+Transfinite Line{17} = 30 Using Progression 1.1;
+Transfinite Line{16} = 1000 Using Progression 1;
+Transfinite Line{13} = 1000 Using Progression 1;
+
+
 // loops
 Line Loop(1) = {1, 2, 3};
 Line Loop(2) = {4, 5, 6, 7};
 Line Loop(3) = {-6, 8, 9, 10};
+Line Loop(4) = {13, 14, -4, 12};
+Line Loop(5) = {16, 17, -13, 15};
 
 
 // ==================================BOUNDARY LAYER
@@ -267,9 +289,15 @@ Plane Surface(2) = {3};
 Transfinite Surface{2};
 Recombine Surface{2};
 
+Plane Surface(3) = {5};
+Transfinite Surface{3};
+Recombine Surface{3};
 
-Physical Surface(1) = {1, 2};
-Physical Line("FARFIELD") = {4, 5, 7, 8, 10};
+
+Plane Surface(4) = {4};
+
+Physical Surface(1) = {1, 2, 4};
+Physical Line("FARFIELD") = {16, 17, 5, 8, 10, 7, 12, 15};
 Physical Line("WALL") = {9};
 Physical Line("AIRFOIL") = {1,2,3};
 
