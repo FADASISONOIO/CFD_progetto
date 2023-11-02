@@ -1,0 +1,114 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                              %
+% SU2 configuration file                                                       %
+% Case description: Laminar flow inside of a lid-driven cavity                 %
+% Author: Thomas D. Economon                                                   %
+% Institution: Stanford University                                             %
+% Date: 2013.10.01                                                             %
+% File Version 8.0.0 "Harrier"                                                 %
+%                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ------------- DIRECT, ADJOINT, AND LINEARIZED PROBLEM DEFINITION ------------%
+%
+SOLVER= RANS
+KIND_TURB_MODEL= SA
+MATH_PROBLEM= DIRECT
+RESTART_SOL= NO
+
+REF_DIMENSIONALIZATION= FREESTREAM_VEL_EQ_ONE
+
+% -------------------- COMPRESSIBLE FREE-STREAM DEFINITION --------------------%
+%
+MACH_NUMBER= 0.2
+AOA= 0.0
+SIDESLIP_ANGLE= 0.0
+FREESTREAM_TEMPERATURE= 288.15
+REYNOLDS_NUMBER= 100000.0
+REYNOLDS_LENGTH= 1.0
+
+FREESTREAM_NU_FACTOR= 1e-3
+% ----------------------- DYNAMIC MESH DEFINITION -----------------------------%
+%
+SURFACE_MOVEMENT= MOVING_WALL
+MACH_MOTION= 0.1
+MARKER_MOVING= ( ground )
+SURFACE_TRANSLATION_RATE= 68.0594 0.0 0.0
+
+% ---------------------- REFERENCE VALUE DEFINITION ---------------------------%
+%
+REF_ORIGIN_MOMENT_X = 0.25
+REF_ORIGIN_MOMENT_Y = 0.00
+REF_ORIGIN_MOMENT_Z = 0.00
+REF_LENGTH= 1.0
+REF_AREA= 1.0
+
+% -------------------- BOUNDARY CONDITION DEFINITION --------------------------%
+%
+MARKER_HEATFLUX= ( airfoil, 0.0, ground,0.0 )
+%MARKER_EULER= (ground, 0.0)
+MARKER_FAR= (farfield)
+MARKER_PLOTTING= ( airfoil )
+MARKER_MONITORING= ( airfoil )
+
+% ------------- COMMON PARAMETERS DEFINING THE NUMERICAL METHOD ---------------%
+%
+NUM_METHOD_GRAD= WEIGHTED_LEAST_SQUARES
+NUM_METHOD_GRAD_RECON= LEAST_SQUARES
+CFL_NUMBER= 2.0
+CFL_ADAPT= YES
+CFL_ADAPT_PARAM= ( 0.1, 1.1, 1.0, 100.0 )
+ITER= 99999
+
+% ------------------------ LINEAR SOLVER DEFINITION ---------------------------%
+%
+LINEAR_SOLVER= FGMRES
+LINEAR_SOLVER_PREC= LU_SGS
+LINEAR_SOLVER_ERROR= 1E-6
+LINEAR_SOLVER_ITER= 15
+
+% -------------------------- MULTIGRID PARAMETERS -----------------------------%
+%
+MGLEVEL= 0
+MGCYCLE= W_CYCLE
+MG_PRE_SMOOTH= ( 1, 2, 3, 3 )
+MG_POST_SMOOTH= ( 0, 0, 0, 0 )
+MG_CORRECTION_SMOOTH= ( 0, 0, 0, 0 )
+MG_DAMP_RESTRICTION= 0.9
+MG_DAMP_PROLONGATION= 0.9
+
+% -------------------- FLOW NUMERICAL METHOD DEFINITION -----------------------%
+%
+CONV_NUM_METHOD_FLOW= ROE
+MUSCL_FLOW= YES
+SLOPE_LIMITER_FLOW= NONE
+JST_SENSOR_COEFF= ( 0.5, 0.02 )
+TIME_DISCRE_FLOW= EULER_IMPLICIT
+
+% --------------------------- CONVERGENCE PARAMETERS --------------------------%
+%
+CONV_FIELD= RMS_DENSITY
+CONV_RESIDUAL_MINVAL= -10
+CONV_STARTITER= 10
+CONV_CAUCHY_ELEMS= 100
+CONV_CAUCHY_EPS= 1E-6
+
+% ------------------------- INPUT/OUTPUT INFORMATION --------------------------%
+%
+MESH_FILENAME= meshBL.su2.txt
+MESH_FORMAT= SU2
+MESH_OUT_FILENAME= mesh_out.su2
+SOLUTION_FILENAME= solution_flow.dat
+SOLUTION_ADJ_FILENAME= solution_adj.dat
+TABULAR_FORMAT= CSV
+CONV_FILENAME= history
+RESTART_FILENAME= restart_flow.dat
+RESTART_ADJ_FILENAME= restart_adj.dat
+VOLUME_FILENAME= flow
+VOLUME_ADJ_FILENAME= adjoint
+GRAD_OBJFUNC_FILENAME= of_grad.dat
+SURFACE_FILENAME= surface_flow
+SURFACE_ADJ_FILENAME= surface_adjoint
+OUTPUT_WRT_FREQ= 1000
+SCREEN_WRT_FREQ_INNER= 100
+SCREEN_OUTPUT= (INNER_ITER, RMS_DENSITY, RMS_ENERGY, LIFT, DRAG, AVG_CFL)
