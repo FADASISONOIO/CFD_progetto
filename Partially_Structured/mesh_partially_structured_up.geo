@@ -298,7 +298,7 @@ Plane Surface(4) = {4};
 
 Physical Surface(1) = {1, 2, 4};
 Physical Line("FARFIELD") = {16, 17, 5, 8, 10, 7, 12, 15};
-Physical Line("WALL") = {9};
+Physical Line("GROUND") = {9};
 Physical Line("AIRFOIL") = {1,2,3};
 
 

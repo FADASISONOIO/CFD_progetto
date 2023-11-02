@@ -270,7 +270,7 @@ Recombine Surface{2};
 
 Physical Surface(1) = {1, 2};
 Physical Line("FARFIELD") = {4, 5, 7, 8, 10};
-Physical Line("WALL") = {9};
+Physical Line("GROUND") = {9};
 Physical Line("AIRFOIL") = {1,2,3};
 
 
