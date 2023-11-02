@@ -281,7 +281,7 @@ Field[1].FanPointsList={1};
 Field[1].FanPointsSizesList={40};
 BoundaryLayer Field = 1;
 Physical Surface(1) = {1,2};
-Physical Line("FARFIELD") = {11,6,5,7};
+Physical Line("FARFIELD") = {14,11,6,5,7,13};
 Physical Line("WALL") = {12};
 Physical Line("AIRFOIL") = {1,2,3};
 

@@ -329,7 +329,7 @@ TEspacing = 0.02;
                 output << "BoundaryLayer Field = 1;\n";
 
                 output << "Physical Surface(1) = {1,2};\n";
-                output << "Physical Line(\"FARFIELD\") = {11,6,5,7};\n";
+                output << "Physical Line(\"FARFIELD\") = {14,11,6,5,7,13};\n";
                 output << "Physical Line(\"WALL\") = {12};\n";
                 if (bluntTE)
                     output << "Physical Line(\"AIRFOIL\") = {1,2,3,9};\n";
