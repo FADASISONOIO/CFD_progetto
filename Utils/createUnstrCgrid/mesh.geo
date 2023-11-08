@@ -8,15 +8,12 @@ R = 10;
 D = 1;
 BL = 0.3;
 AoA = 0.3;
-npW = 100;
-npS = 100;
-npP = 150;
-npD = 100;
+BL_size  = 0.00005;
+BL_thickness = 0.01;
+BL_ratio = 1.1;
+bumpW = 7;
 progW = 1.1;
-progS = 1.05;
-progP = 1;
-progD = 1.1;
-bumpP = 0.1;
+numW = 200;
 // =====================================POINTS
 Point(1) = {1, 0, 0.0, 1*h};
 Point(2) = {0.994046, 0.00127452, 0.0, 1*h};
@@ -251,9 +248,9 @@ Line(11) = {211,206};
 Line(12) = {212,213};
 Line(13) = {208,212};
 Line(14) = {213,211};
-Transfinite Line{8 , 12} = 300 Using Progression 1;
-Transfinite Line{13} =  20 Using Progression 1/1.05;
-Transfinite Line{14} =  20 Using Progression 1.05;
+Transfinite Line{8 , 12} = numW Using Bump bumpW;
+Transfinite Line{13} =  20 Using Progression 1/progW;
+Transfinite Line{14} =  20 Using Progression progW;
 
 
 // =====================================LOOPS
@@ -274,9 +271,9 @@ Transfinite Surface{2};
 Field[1]=BoundaryLayer;
 Field[1].CurvesList={1,2,3};
 Field[1].Quads=1;
-Field[1].Ratio=1.1;
-Field[1].Size=0.00001;
-Field[1].Thickness=0.01;
+Field[1].Ratio= BL_ratio;
+Field[1].Size=BL_size;
+Field[1].Thickness=BL_thickness;
 Field[1].FanPointsList={1};
 Field[1].FanPointsSizesList={40};
 BoundaryLayer Field = 1;

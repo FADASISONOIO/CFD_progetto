@@ -209,22 +209,20 @@ TEspacing = 0.02;
             output << "// ===========================================\n";
             output << "// ==================================MESH FILE\n";
             output << "// ===========================================\n\n";
-            output << "h = 0.0008;\n";
+
             if (isProfile) {
+                output << "h = 0.0008;\n";
                 output << "H = 1;\n";
-                output << "R = 10;\n";
-                output << "D = 1;\n";
-                output << "BL = 0.3;\n";
-                output << "AoA = 0.3;\n";
-                output << "npW = 100;\n";
-                output << "npS = 100;\n";
-                output << "npP = 150;\n";
-                output << "npD = 100;\n";
-                output << "progW = 1.1;\n";
-                output << "progS = 1.05;\n";
-                output << "progP = 1;\n";
-                output << "progD = 1.1;\n";
-                output << "bumpP = 0.1;\n";
+                output << "R = 10;\n";      /* Raggio C*/
+                output << "D = 1;\n";      /* Distanza dal muro*/
+                output << "BL = 0.3;\n";   /* Spessore layer vicino al muro*/
+                output << "AoA = 0.3;\n";  /* Angolo di attacco in deg*/
+                output << "BL_size  = 0.00005;\n";  /*Size prima cella BL*/
+                output << "BL_thickness = 0.01;\n"; /*Spessore BL profilo*/
+                output << "BL_ratio = 1.1;\n";  /*rapporto spessori BL profilo*/
+                output << "bumpW = 7;\n";  /*infittimento bounday muro in stramwise*/
+                output << "progW = 1.1;\n";  /*infittimento bounday muro in wall normal*/
+                output << "numW = 200;\n";  /*n celle stramwise muro*/
             }
             output << "// =====================================POINTS\n";
 
@@ -293,9 +291,9 @@ TEspacing = 0.02;
                 output << "Transfinite Line{" << 3 << "} = npP Using Bump bumpP;\n";
                 output << "Transfinite Line{" << 9 << "} = npP Using Progression 1;\n";
                 */
-                output << "Transfinite Line{" << 8 << " , " << 12 << "} = 300 Using Progression 1;\n";
-                output << "Transfinite Line{" << 13 << "} =  20 Using Progression 1/1.05;\n";
-                output << "Transfinite Line{" << 14 << "} =  20 Using Progression 1.05;\n";
+                output << "Transfinite Line{" << 8 << " , " << 12 << "} = numW Using Bump bumpW;\n";
+                output << "Transfinite Line{" << 13 << "} =  20 Using Progression 1/progW;\n";
+                output << "Transfinite Line{" << 14 << "} =  20 Using Progression progW;\n";
                 
                 output << "\n\n// =====================================LOOPS\n\n";
                 if (bluntTE)
@@ -320,9 +318,9 @@ TEspacing = 0.02;
                 output << "Field[1]=BoundaryLayer;\n";
                 output << "Field[1].CurvesList={1,2,3};\n";
                 output << "Field[1].Quads=1;\n";
-                output << "Field[1].Ratio=1.1;\n";
-                output << "Field[1].Size=0.00001;\n";
-                output << "Field[1].Thickness=0.01;\n";
+                output << "Field[1].Ratio= BL_ratio;\n";
+                output << "Field[1].Size=BL_size;\n";
+                output << "Field[1].Thickness=BL_thickness;\n";
                 //Field[1].PointsList={1};
                 output << "Field[1].FanPointsList={1};\n";
                 output << "Field[1].FanPointsSizesList={40};\n";
