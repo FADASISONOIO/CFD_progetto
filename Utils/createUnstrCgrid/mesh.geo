@@ -5,17 +5,15 @@
 h = 0.0008;
 H = 1;
 R = 10;
-D = 0.5;
+D = 1;
 BL = 0.3;
-AoA = 20;
-BL_size  = 0.0001;
+AoA = 0.3;
+BL_size  = 0.00005;
 BL_thickness = 0.01;
-BL_ratio = 1.07;
-progsW = 1.1;
-prognW = 1.02333;
-numW = 50;
-nblW = 91;
-hrat = 10;
+BL_ratio = 1.1;
+bumpW = 7;
+progW = 1.1;
+numW = 200;
 // =====================================POINTS
 Point(1) = {1, 0, 0.0, 1*h};
 Point(2) = {0.994046, 0.00127452, 0.0, 1*h};
@@ -231,8 +229,6 @@ Point(210) = {0, -D+BL, 0,1/5*H};
 Point(211) = {0.5-R, -D+BL, 0,1/5*H};
 Point(212) = {R+0.5,  -D, 0,1/5*H};
 Point(213) = {0.5-R, -D, 0,1/5*H};
-Point(214) = {1, -D, 0,1/5*H};
-Point(215) = {0, -D, 0,1/5*H};
 
 
 // =====================================CURVES
@@ -245,31 +241,23 @@ Spline(3) = {101:200, 1};
 Circle(5) = {204,203,205};
 Circle(6) = {205,203,206};
 Line(7) = {204,208};
-Line(8) = {208,209};
+Line(8) = {208,211};
 Line(9) = {209,210};
 Line(10) = {210,211};
 Line(11) = {211,206};
+Line(12) = {212,213};
 Line(13) = {208,212};
 Line(14) = {213,211};
-Line(15) = {212,214};
-Line(16) = {214,215};
-Line(17) = {215,213};
-Line(18) = {209,214};
-Line(19) = {210,215};
-Transfinite Line{9 , 16} = 1/h/hrat Using Progression 1;
-Transfinite Line{8 , 15} = numW Using Progression 1/progsW;
-Transfinite Line{10 , 17} = numW Using Progression progsW;
-Transfinite Line{13 , 18, 19} =  nblW Using Progression 1/prognW;
-Transfinite Line{14} =  nblW Using Progression prognW;
+Transfinite Line{8 , 12} = numW Using Bump bumpW;
+Transfinite Line{13} =  20 Using Progression 1/progW;
+Transfinite Line{14} =  20 Using Progression progW;
 
 
 // =====================================LOOPS
 
 Line Loop(1) = {1,2,3};
-Line Loop(2) = {-11,-10,-9,-8,-7,5,6};
-Line Loop(3) = {-10,19,17,14};
-Line Loop(4) = {-9,18,16,-19};
-Line Loop(5) = {-8,13,15,-18};
+Line Loop(2) = {-11,-8,-7,5,6};
+Line Loop(3) = {-8,13,12,14};
 Rotate {{0, 0, -1}, {0.5, 0, 0}, Pi * AoA / 180} 
  {Curve{2}; Curve{1}; Curve{3};}
 
@@ -280,12 +268,6 @@ Plane Surface(1) = {1,2};
 Plane Surface(2) = {3};
 Transfinite Surface{2};
  Recombine Surface{2};
-Plane Surface(3) = {4};
-Transfinite Surface{3};
- Recombine Surface{3};
-Plane Surface(4) = {5};
-Transfinite Surface{4};
- Recombine Surface{4};
 Field[1]=BoundaryLayer;
 Field[1].CurvesList={1,2,3};
 Field[1].Quads=1;
@@ -295,9 +277,9 @@ Field[1].Thickness=BL_thickness;
 Field[1].FanPointsList={1};
 Field[1].FanPointsSizesList={40};
 BoundaryLayer Field = 1;
-Physical Surface(1) = {1,2,3,4};
+Physical Surface(1) = {1,2};
 Physical Line("FARFIELD") = {14,11,6,5,7,13};
-Physical Line("WALL") = {15,16,17};
+Physical Line("WALL") = {12};
 Physical Line("AIRFOIL") = {1,2,3};
 
 

@@ -13,7 +13,7 @@ private:
     bool isProfile;
 public:
     string fileName;
-    double LEspacing,TEspacing,wall_BL_size,hpp,H,R,D,BL,AoA,BL_size,BL_thickness,BL_ratio,progsW,prognW,numW,nblW,hrat;
+    double LEspacing,TEspacing;
 
     Helper() : fileName(), LEspacing(1), TEspacing(1), nPoints(0), coordinates(nullptr) {};
     ~Helper() {
@@ -147,41 +147,6 @@ TEspacing = 0.02;
     }
 
     void printFile() {
-        
-
-                /*FARFIELD*/
-        H = 1;
-
-        R = 10;      /* Raggio C*/
-
-                /*PROFILO*/     
-        hpp = 0.0008;     /* h piccolo dim triangoli appena fuori bl profilo*/
-        D = 0.5;      /* Distanza dal muro*/
-        AoA = 20;  /* Angolo di attacco in deg*/
-        BL_size  = 0.0001;  /*Size prima cella BL*/
-        BL_thickness = 0.01; /*Spessore BL profilo*/
-        /*viene calcolato*/
-        BL_ratio = 1 + (hpp - BL_size)/BL_thickness;  /*rapporto spessori BL profilo*/
-
-                /* STRUTTURATA MURO*/
-        hrat = 10; /* Rapporto tra h sul pezzo centrale del muro e h sul profilo*/
-        BL = 0.3;   /* Spessore layer vicino al muro*/
-        wall_BL_size = 0.001;   /*wall cell thickness*/
-        progsW = 1.1;  /*infittimento bounday muro in stramwise*/
-        /* vengono calcolati*/
-        prognW = 1 + (hpp*hrat - wall_BL_size)/BL;  /*n layer muro*/
-        nblW = ceil(log(hpp*hrat/wall_BL_size)/(log(prognW)));  /*infittimento bounday muro in wall normal*/
-        
-        /*numW = ceil(log((hpp*hrat)/(R*(1-progsW)))/(log(progsW)));   /*n celle stramwise muro*//**/
-        numW = 0;
-        double cm_stream = hpp*hrat; 
-
-
-
-        while (cm_stream < R) {
-            cm_stream = hpp*hrat + progsW*cm_stream;
-            numW++;
-        }
 
         findMarkers();
 
@@ -246,23 +211,18 @@ TEspacing = 0.02;
             output << "// ===========================================\n\n";
 
             if (isProfile) {
-                output << "h = " << hpp << ";\n";
-                /*FARFIELD*/
-                output << "H = " << H << ";\n";
-                output << "R = " << R << ";\n";      /* Raggio C*/
-                /*PROFILO*/
-                output << "D = " << D << ";\n";      /* Distanza dal muro*/
-                output << "BL = " << BL << ";\n";   /* Spessore layer vicino al muro*/
-                output << "AoA = " << AoA << ";\n";  /* Angolo di attacco in deg*/
-                output << "BL_size  = " << BL_size << ";\n";  /*Size prima cella BL*/
-                output << "BL_thickness = " << BL_thickness << ";\n"; /*Spessore BL profilo*/
-                output << "BL_ratio = " << BL_ratio << ";\n";  /*rapporto spessori BL profilo*/
-                /* STRUTTURATA MURO*/
-                output << "progsW = " << progsW << ";\n";  /*infittimento bounday muro in stramwise*/
-                output << "prognW = " << prognW << ";\n";  /*infittimento bounday muro in wall normal*/
-                output << "numW = " << numW << ";\n";  /*n celle stramwise muro*/
-                output << "nblW = " << nblW << ";\n";  /*n layer muro*/
-                output << "hrat = " << hrat << ";\n";  /* Rapporto tra h sul pezzo centrale del muro e h sul profilo*/
+                output << "h = 0.0008;\n";
+                output << "H = 1;\n";
+                output << "R = 10;\n";      /* Raggio C*/
+                output << "D = 1;\n";      /* Distanza dal muro*/
+                output << "BL = 0.3;\n";   /* Spessore layer vicino al muro*/
+                output << "AoA = 0.3;\n";  /* Angolo di attacco in deg*/
+                output << "BL_size  = 0.00005;\n";  /*Size prima cella BL*/
+                output << "BL_thickness = 0.01;\n"; /*Spessore BL profilo*/
+                output << "BL_ratio = 1.1;\n";  /*rapporto spessori BL profilo*/
+                output << "bumpW = 7;\n";  /*infittimento bounday muro in stramwise*/
+                output << "progW = 1.1;\n";  /*infittimento bounday muro in wall normal*/
+                output << "numW = 200;\n";  /*n celle stramwise muro*/
             }
             output << "// =====================================POINTS\n";
 
@@ -285,9 +245,7 @@ TEspacing = 0.02;
                 output << "Point(" << nPoints + 9 << ") = {0, -D+BL, 0,1/5*H};\n";
                 output << "Point(" << nPoints + 10 << ") = {0.5-R, -D+BL, 0,1/5*H};\n";
                 output << "Point(" << nPoints + 11 << ") = {R+0.5,  -D, 0,1/5*H};\n";    
-                output << "Point(" << nPoints + 12 << ") = {0.5-R, -D, 0,1/5*H};\n";  
-                output << "Point(" << nPoints + 13 << ") = {1, -D, 0,1/5*H};\n";
-                output << "Point(" << nPoints + 14 << ") = {0, -D, 0,1/5*H};\n";         
+                output << "Point(" << nPoints + 12 << ") = {0.5-R, -D, 0,1/5*H};\n";           
 
                 output << "\n\n// =====================================CURVES\n\n";
 
@@ -307,28 +265,13 @@ TEspacing = 0.02;
                 output << "Circle(5) = {" << nPoints + 3 << "," << nPoints + 2 << "," << nPoints + 4 << "};\n";
                 output << "Circle(6) = {" << nPoints + 4 << "," << nPoints + 2 << "," << nPoints + 5 << "};\n";
                 output << "Line(7) = {" << nPoints + 3 << "," << nPoints + 7 << "};\n";
-                /*output << "Line(8) = {" << nPoints + 7 << "," << nPoints + 10 << "};\n";*/
-                /*sopra strutturate*/
-                output << "Line(8) = {" << nPoints + 7 << "," << nPoints + 8 << "};\n";
+                output << "Line(8) = {" << nPoints + 7 << "," << nPoints + 10 << "};\n";
                 output << "Line(9) = {" << nPoints + 8 << "," << nPoints + 9 << "};\n";
                 output << "Line(10) = {" << nPoints + 9 << "," << nPoints + 10 << "};\n";
-
-                /*verticali sopra strutturata*/
                 output << "Line(11) = {" << nPoints + 10 << "," << nPoints + 5 << "};\n";
-                /*output << "Line(12) = {" << nPoints + 11 << "," << nPoints + 12 << "};\n";*/
-                /*Verticali strutturate*/
+                output << "Line(12) = {" << nPoints + 11 << "," << nPoints + 12 << "};\n";
                 output << "Line(13) = {" << nPoints + 7 << "," << nPoints + 11 << "};\n";
                 output << "Line(14) = {" << nPoints + 12 << "," << nPoints + 10 << "};\n";
-
-                /*sotto strutturate*/
-                output << "Line(15) = {" << nPoints + 11 << "," << nPoints + 13 << "};\n";
-                output << "Line(16) = {" << nPoints + 13 << "," << nPoints + 14 << "};\n";
-                output << "Line(17) = {" << nPoints + 14 << "," << nPoints + 12 << "};\n";
-
-                /*verticali dentro strutturata*/
-                output << "Line(18) = {" << nPoints + 8 << "," << nPoints + 13 << "};\n";
-                output << "Line(19) = {" << nPoints + 9 << "," << nPoints + 14 << "};\n";
-
                 /*output << "Line(12) = {" << LEid +1 << "," << nPoints + 5 << "};\n"; */
                 /*output << "Line(13) = {" << nPoints + 3 << ",1};\n";*/ 
 
@@ -348,11 +291,9 @@ TEspacing = 0.02;
                 output << "Transfinite Line{" << 3 << "} = npP Using Bump bumpP;\n";
                 output << "Transfinite Line{" << 9 << "} = npP Using Progression 1;\n";
                 */
-                output << "Transfinite Line{" << 9 << " , " << 16 << "} = 1/h/hrat Using Progression 1;\n";
-                output << "Transfinite Line{" << 8 << " , " << 15 << "} = numW Using Progression 1/progsW;\n";
-                output << "Transfinite Line{" << 10 << " , " << 17 << "} = numW Using Progression progsW;\n";
-                output << "Transfinite Line{" << 13 << " , " << 18 << ", " << 19 << "} =  nblW Using Progression 1/prognW;\n";
-                output << "Transfinite Line{" << 14 << "} =  nblW Using Progression prognW;\n";
+                output << "Transfinite Line{" << 8 << " , " << 12 << "} = numW Using Bump bumpW;\n";
+                output << "Transfinite Line{" << 13 << "} =  20 Using Progression 1/progW;\n";
+                output << "Transfinite Line{" << 14 << "} =  20 Using Progression progW;\n";
                 
                 output << "\n\n// =====================================LOOPS\n\n";
                 if (bluntTE)
@@ -360,10 +301,8 @@ TEspacing = 0.02;
                 else
                     output << "Line Loop(1) = {1,2,3};\n";
 
-                output << "Line Loop(2) = {-11,-10,-9,-8,-7,5,6};\n";
-                output << "Line Loop(3) = {-10,19,17,14};\n";
-                output << "Line Loop(4) = {-9,18,16,-19};\n";
-                output << "Line Loop(5) = {-8,13,15,-18};\n";
+                output << "Line Loop(2) = {-11,-8,-7,5,6};\n";
+                output << "Line Loop(3) = {-8,13,12,14};\n";
 
                 output << "Rotate {{0, 0, -1}, {0.5, 0, 0}, Pi * AoA / 180} \n {Curve{2}; Curve{1}; Curve{3};}\n";
 
@@ -374,10 +313,7 @@ TEspacing = 0.02;
                 
                 output << "Plane Surface(2) = {3};\n";
                 output << "Transfinite Surface{2};\n Recombine Surface{2};\n";
-                output << "Plane Surface(3) = {4};\n";
-                output << "Transfinite Surface{3};\n Recombine Surface{3};\n";
-                output << "Plane Surface(4) = {5};\n";
-                output << "Transfinite Surface{4};\n Recombine Surface{4};\n";
+
                 // ==================================BOUNDARY LAYER
                 output << "Field[1]=BoundaryLayer;\n";
                 output << "Field[1].CurvesList={1,2,3};\n";
@@ -390,9 +326,9 @@ TEspacing = 0.02;
                 output << "Field[1].FanPointsSizesList={40};\n";
                 output << "BoundaryLayer Field = 1;\n";
 
-                output << "Physical Surface(1) = {1,2,3,4};\n";
+                output << "Physical Surface(1) = {1,2};\n";
                 output << "Physical Line(\"FARFIELD\") = {14,11,6,5,7,13};\n";
-                output << "Physical Line(\"WALL\") = {15,16,17};\n";
+                output << "Physical Line(\"WALL\") = {12};\n";
                 if (bluntTE)
                     output << "Physical Line(\"AIRFOIL\") = {1,2,3,9};\n";
                 else
