@@ -5,16 +5,16 @@
 h = 0.0008;
 H = 1;
 R = 10;
-D = 1;
+D = 0.5;
 BL = 0.3;
-AoA = 0.3;
-BL_size  = 5e-05;
+AoA = 20;
+BL_size  = 0.0001;
 BL_thickness = 0.01;
-BL_ratio = 1.1;
+BL_ratio = 1.07;
 progsW = 1.1;
-prognW = 1.1;
+prognW = 1.02333;
 numW = 50;
-nblW = 30;
+nblW = 91;
 hrat = 10;
 // =====================================POINTS
 Point(1) = {1, 0, 0.0, 1*h};

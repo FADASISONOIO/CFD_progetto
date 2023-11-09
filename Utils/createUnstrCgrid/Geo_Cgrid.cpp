@@ -13,7 +13,7 @@ private:
     bool isProfile;
 public:
     string fileName;
-    double LEspacing,TEspacing,hpp,H,R,D,BL,AoA,BL_size,BL_thickness,BL_ratio,progsW,prognW,numW,nblW,hrat;
+    double LEspacing,TEspacing,wall_BL_size,hpp,H,R,D,BL,AoA,BL_size,BL_thickness,BL_ratio,progsW,prognW,numW,nblW,hrat;
 
     Helper() : fileName(), LEspacing(1), TEspacing(1), nPoints(0), coordinates(nullptr) {};
     ~Helper() {
@@ -148,32 +148,40 @@ TEspacing = 0.02;
 
     void printFile() {
         
-        hpp = 0.0008;
+
                 /*FARFIELD*/
         H = 1;
+
         R = 10;      /* Raggio C*/
-                /*PROFILO*/
-        D = 1;      /* Distanza dal muro*/
-        BL = 0.3;   /* Spessore layer vicino al muro*/
-        AoA = 0.3;  /* Angolo di attacco in deg*/
-        BL_size  = 0.00005;  /*Size prima cella BL*/
+
+                /*PROFILO*/     
+        hpp = 0.0008;     /* h piccolo dim triangoli appena fuori bl profilo*/
+        D = 0.5;      /* Distanza dal muro*/
+        AoA = 20;  /* Angolo di attacco in deg*/
+        BL_size  = 0.0001;  /*Size prima cella BL*/
         BL_thickness = 0.01; /*Spessore BL profilo*/
-        BL_ratio = 1.1;  /*rapporto spessori BL profilo*/
+        /*viene calcolato*/
+        BL_ratio = 1 + (hpp - BL_size)/BL_thickness;  /*rapporto spessori BL profilo*/
+
                 /* STRUTTURATA MURO*/
-        progsW = 1.1;  /*infittimento bounday muro in stramwise*/
-        prognW = 1.1;  /*infittimento bounday muro in wall normal*/
-        nblW = 30;  /*n layer muro*/
         hrat = 10; /* Rapporto tra h sul pezzo centrale del muro e h sul profilo*/
+        BL = 0.3;   /* Spessore layer vicino al muro*/
+        wall_BL_size = 0.001;   /*wall cell thickness*/
+        progsW = 1.1;  /*infittimento bounday muro in stramwise*/
+        /* vengono calcolati*/
+        prognW = 1 + (hpp*hrat - wall_BL_size)/BL;  /*n layer muro*/
+        nblW = ceil(log(hpp*hrat/wall_BL_size)/(log(prognW)));  /*infittimento bounday muro in wall normal*/
+        
         /*numW = ceil(log((hpp*hrat)/(R*(1-progsW)))/(log(progsW)));   /*n celle stramwise muro*//**/
         numW = 0;
-        double cumulative = hpp*hrat; 
+        double cm_stream = hpp*hrat; 
 
-        while (cumulative < R) {
-            cumulative = hpp*hrat + progsW*cumulative;
+
+
+        while (cm_stream < R) {
+            cm_stream = hpp*hrat + progsW*cm_stream;
             numW++;
         }
-
-
 
         findMarkers();
 
