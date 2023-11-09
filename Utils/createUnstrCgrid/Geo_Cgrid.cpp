@@ -150,25 +150,26 @@ TEspacing = 0.02;
         
 
                 /*FARFIELD*/
-        H = 1;
+        H = 1; 		/* dimensione celle al farfield */
+        R = 10;      	/* Raggio C*/
 
-        R = 10;      /* Raggio C*/
-
-                /*PROFILO*/     
-        hpp = 0.0008;     /* h piccolo dim triangoli appena fuori bl profilo*/
-        D = 0.5;      /* Distanza dal muro*/
-        AoA = 20;  /* Angolo di attacco in deg*/
-        BL_size  = 0.0001;  /*Size prima cella BL*/
+                /*PROFILO*/   
+	/* MODIFICABILI PROFILO*/  
+        hpp = 0.0008;     /*Dim triangoli appena fuori BL profilo*/
+        D = 0.5;     	 /* Distanza dal muro*/
+        AoA = 20;  	/* Angolo di attacco in deg*/
+        BL_size  = 0.0001;  /*Altezza prima cella BL profilo*/
         BL_thickness = 0.01; /*Spessore BL profilo*/
-        /*viene calcolato*/
+        /*CALCOLATI PROFILO*/
         BL_ratio = 1 + (hpp - BL_size)/BL_thickness;  /*rapporto spessori BL profilo*/
 
                 /* STRUTTURATA MURO*/
-        hrat = 10; /* Rapporto tra h sul pezzo centrale del muro e h sul profilo*/
-        BL = 0.3;   /* Spessore layer vicino al muro*/
-        wall_BL_size = 0.001;   /*wall cell thickness*/
+	/* MODIFICABILI MURO*/ 
+        hrat = 10; /* Rapporto tra dim triangoli sul BL del muro e dim triangoli sul BL del profilo*/
+        BL = 0.3;   /* Spessore BL muro*/
+        wall_BL_size = 0.001;   /*Altezza prima cella BL muro*/
         progsW = 1.1;  /*infittimento bounday muro in stramwise*/
-        /* vengono calcolati*/
+        /* CALCOLATI MURO*/
         prognW = 1 + (hpp*hrat - wall_BL_size)/BL;  /*n layer muro*/
         nblW = ceil(log(hpp*hrat/wall_BL_size)/(log(prognW)));  /*infittimento bounday muro in wall normal*/
         
