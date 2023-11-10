@@ -2,20 +2,22 @@
 // ==================================MESH FILE
 // ===========================================
 
-h = 0.0008;
-H = 1;
+h = 0.0012;
+H = 0.5;
 R = 10;
 D = 0.5;
 BL = 0.08;
 AoA = 20;
-BL_size  = 0.0001;
+BL_size  = 1e-05;
 BL_thickness = 0.01;
-BL_ratio = 1.07;
-progsW = 1.1;
-prognW = 1.0875;
-numW = 50;
-nblW = 25;
-hrat = 10;
+BL_ratio = 1.119;
+progsWfwd = 1.09;
+progsWaft = 1.001;
+prognW = 1.2875;
+numWfwd = 42;
+numWaft = 348;
+nblW = 13;
+hrat = 20;
 // =====================================POINTS
 Point(1) = {1, 0, 0.0, 1*h};
 Point(2) = {0.994046, 0.00127452, 0.0, 1*h};
@@ -221,14 +223,14 @@ Point(201) = {1, 0, 0.0, 1*h};
 
  // farfield
 Point(203) = {0.5, 0, 0,H};
-Point(204) = {R+0.5, 0, 0,H};
+Point(204) = {R+0.5, 0, 0,1/10*H};
 Point(205) = {0.5, R, 0,H};
 Point(206) = {0.5-R, 0, 0,H};
 Point(207) = {0, -R, 0,H};
-Point(208) = {R+0.5,  -D+BL, 0,1/5*H};
+Point(208) = {R+0.5,  -D+BL, 0,1/10*H};
 Point(209) = {1, -D+BL, 0,1/5*H};
 Point(210) = {0, -D+BL, 0,1/5*H};
-Point(211) = {0.5-R, -D+BL, 0,1/5*H};
+Point(211) = {0.5-R, -D+BL, 0,H};
 Point(212) = {R+0.5,  -D, 0,1/5*H};
 Point(213) = {0.5-R, -D, 0,1/5*H};
 Point(214) = {1, -D, 0,1/5*H};
@@ -257,8 +259,8 @@ Line(17) = {215,213};
 Line(18) = {209,214};
 Line(19) = {210,215};
 Transfinite Line{9 , 16} = 1/h/hrat Using Progression 1;
-Transfinite Line{8 , 15} = numW Using Progression 1/progsW;
-Transfinite Line{10 , 17} = numW Using Progression progsW;
+Transfinite Line{8 , 15} = numWaft Using Progression 1/progsWaft;
+Transfinite Line{10 , 17} = numWfwd Using Progression progsWfwd;
 Transfinite Line{13 , 18, 19} =  nblW Using Progression 1/prognW;
 Transfinite Line{14} =  nblW Using Progression prognW;
 
