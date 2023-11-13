@@ -112,7 +112,7 @@ def main():
 
   while (TimeIter < nTimeIter):
     # Define the rigid body displacement and set the new coords of each node on the marker
-    pos_y = -1 * (time > 0.5)*(time < 1.5)*(time - 0.5) * 0.1 - 0.1 * (time >= 1.5)
+    pos_y = (time > 2)*(time < 3)*(time - 2) * 0.1 + 0.1 * (time >= 3)
     value = 0.0, pos_y
 
     for iVertex in range(nVertex_MovingMarker):
