@@ -157,7 +157,7 @@ TEspacing = 0.02;
                 /*PROFILO*/     
         hpp = 0.0012;     /* h piccolo dim triangoli appena fuori bl profilo*/
         D = 0.5;      /* Distanza dal muro*/
-        AoA = 20;  /* Angolo di attacco in deg*/
+        AoA = 2;  /* Angolo di attacco in deg*/
         BL_size  = 0.00001;  /*Size prima cella BL*/
         BL_thickness = 0.01; /*Spessore BL profilo*/
         /*viene calcolato*/
@@ -293,7 +293,10 @@ TEspacing = 0.02;
                 output << "Point(" << nPoints + 11 << ") = {R+0.5,  -D, 0,1/5*H};\n";    
                 output << "Point(" << nPoints + 12 << ") = {0.5-R, -D, 0,1/5*H};\n";  
                 output << "Point(" << nPoints + 13 << ") = {1, -D, 0,1/5*H};\n";
-                output << "Point(" << nPoints + 14 << ") = {0, -D, 0,1/5*H};\n";         
+                output << "Point(" << nPoints + 14 << ") = {0, -D, 0,1/5*H};\n";      
+                output << "Point(" << nPoints + 15 << ") = {1.2, " << -0.75*sin(AoA*3.14/180) <<", 0,2*h};\n";      
+                output << "Point(" << nPoints + 16 << ") = {1.4, " << -0.75*sin(AoA*3.14/180) <<", 0,3*h};\n";      
+                
 
                 output << "\n\n// =====================================CURVES\n\n";
 
@@ -304,7 +307,7 @@ TEspacing = 0.02;
 		    output << "Spline(4) = {" << LOid + 1 << ":" << nPoints << "};\n";
 		else
 		    output << "Spline(4) = {" << LOid + 1 << ":" << nPoints-1 << ", 1};\n";*/
-                output << "Spline(3) = {" << LEid + 1 << ":" << nPoints-1 << ", 1};\n";
+                output << "Spline(3) = {1 :" << nPoints-1 << ", 1};\n";
 
                 if (bluntTE)
                     output << "Line(9) = {" << nPoints << ",1};\n";
@@ -364,14 +367,14 @@ TEspacing = 0.02;
                 if (bluntTE)
                     output << "Line Loop(1) = {1,2,3,9};\n";
                 else
-                    output << "Line Loop(1) = {1,2,3};\n";
+                    output << "Line Loop(1) = {3};\n";
 
                 output << "Line Loop(2) = {-11,-10,-9,-8,-7,5,6};\n";
                 output << "Line Loop(3) = {-10,19,17,14};\n";
                 output << "Line Loop(4) = {-9,18,16,-19};\n";
                 output << "Line Loop(5) = {-8,13,15,-18};\n";
 
-                output << "Rotate {{0, 0, -1}, {0.5, 0, 0}, Pi * AoA / 180} \n {Curve{2}; Curve{1}; Curve{3};}\n";
+                output << "Rotate {{0, 0, -1}, {0.25, 0, 0}, Pi * AoA / 180} \n {Curve{3};}\n";
 
 
 
@@ -384,9 +387,11 @@ TEspacing = 0.02;
                 output << "Transfinite Surface{3};\n Recombine Surface{3};\n";
                 output << "Plane Surface(4) = {5};\n";
                 output << "Transfinite Surface{4};\n Recombine Surface{4};\n";
+                output << "Point{" << nPoints + 15 << "} In Surface{" << 1 <<"};\n";
+                output << "Point{" << nPoints + 16 << "} In Surface{" << 1 <<"};\n";
                 // ==================================BOUNDARY LAYER
                 output << "Field[1]=BoundaryLayer;\n";
-                output << "Field[1].CurvesList={1,2,3};\n";
+                output << "Field[1].CurvesList={3};\n";
                 output << "Field[1].Quads=1;\n";
                 output << "Field[1].Ratio= BL_ratio;\n";
                 output << "Field[1].Size=BL_size;\n";
@@ -396,13 +401,13 @@ TEspacing = 0.02;
                 output << "Field[1].FanPointsSizesList={40};\n";
                 output << "BoundaryLayer Field = 1;\n";
 
-                output << "Physical Surface(1) = {1,2,3,4};\n";
+                output << "Physical Surface(1) = {3,4};\n";
                 output << "Physical Line(\"FARFIELD\") = {14,11,6,5,7,13};\n";
                 output << "Physical Line(\"WALL\") = {15,16,17};\n";
                 if (bluntTE)
                     output << "Physical Line(\"AIRFOIL\") = {1,2,3,9};\n";
                 else
-                    output << "Physical Line(\"AIRFOIL\") = {1,2,3};\n";
+                    output << "Physical Line(\"AIRFOIL\") = {3};\n";
             } else {
 
                 output << "\n // symmetry\n";
