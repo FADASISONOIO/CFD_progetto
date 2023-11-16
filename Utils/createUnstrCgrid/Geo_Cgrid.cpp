@@ -401,7 +401,7 @@ TEspacing = 0.02;
                 output << "Field[1].FanPointsSizesList={40};\n";
                 output << "BoundaryLayer Field = 1;\n";
 
-                output << "Physical Surface(1) = {3,4};\n";
+                output << "Physical Surface(1) = {1,2,3,4};\n";
                 output << "Physical Line(\"FARFIELD\") = {14,11,6,5,7,13};\n";
                 output << "Physical Line(\"WALL\") = {15,16,17};\n";
                 if (bluntTE)
