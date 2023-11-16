@@ -55,13 +55,13 @@ public:
 
 /*
 fileName = "C:/Bash/SU2/GIT_CFD/CFD_progetto/Utils/createGEO/txt_dat/main.dat";*/
-LEspacing = 0.001;
-TEspacing = 0.02;
+
 
     }
 
     void loadPoints() {
-
+LEspacing = 0.2;
+TEspacing = 0.8;
         fileName = "txt_dat/main.dat";
         isProfile = true;
 
@@ -150,21 +150,21 @@ TEspacing = 0.02;
         
 
                 /*FARFIELD*/
-        H = 0.5;
+        H = 1;
 
         R = 10;      /* Raggio C*/
 
                 /*PROFILO*/     
-        hpp = 0.0012;     /* h piccolo dim triangoli appena fuori bl profilo*/
+        hpp = 0.0025;     /* h piccolo dim triangoli appena fuori bl profilo*/
         D = 0.5;      /* Distanza dal muro*/
-        AoA = 2;  /* Angolo di attacco in deg*/
+        AoA = 10;  /* Angolo di attacco in deg*/
         BL_size  = 0.00001;  /*Size prima cella BL*/
-        BL_thickness = 0.01; /*Spessore BL profilo*/
+        BL_thickness = 0.03; /*Spessore BL profilo*/
         /*viene calcolato*/
         BL_ratio = 1 + (hpp - BL_size)/BL_thickness;  /*rapporto spessori BL profilo*/
 
                 /* STRUTTURATA MURO*/
-        hrat = 20; /* Rapporto tra h sul pezzo centrale del muro e h sul profilo*/
+        hrat = 10; /* Rapporto tra h sul pezzo centrale del muro e h sul profilo*/
         BL = 0.08;   /* Spessore layer vicino al muro*/
         wall_BL_size = 0.001;   /*wall cell thickness*/
         progsWfwd = 1.09;  /*infittimento bounday muro in stramwise*/
@@ -389,8 +389,6 @@ TEspacing = 0.02;
                 output << "Transfinite Surface{4};\n Recombine Surface{4};\n";
                 output << "Point{" << nPoints + 15 << "} In Surface{" << 1 <<"};\n";
                 output << "Point{" << nPoints + 16 << "} In Surface{" << 1 <<"};\n";
-                output << "Physical Point(1) = {" << nPoints + 15 << "};\n";
-                output << "Physical Point(2) = {" << nPoints + 16 << "};\n";
                 // ==================================BOUNDARY LAYER
                 output << "Field[1]=BoundaryLayer;\n";
                 output << "Field[1].CurvesList={3};\n";
@@ -403,7 +401,7 @@ TEspacing = 0.02;
                 output << "Field[1].FanPointsSizesList={40};\n";
                 output << "BoundaryLayer Field = 1;\n";
 
-                output << "Physical Surface(1) = {3,4};\n";
+                output << "Physical Surface(1) = {1,2,3,4};\n";
                 output << "Physical Line(\"FARFIELD\") = {14,11,6,5,7,13};\n";
                 output << "Physical Line(\"WALL\") = {15,16,17};\n";
                 if (bluntTE)
