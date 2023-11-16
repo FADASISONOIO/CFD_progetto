@@ -2,20 +2,22 @@
 // ==================================MESH FILE
 // ===========================================
 
-h = 0.0008;
-H = 1;
+h = 0.0012;
+H = 0.5;
 R = 10;
 D = 0.5;
-BL = 0.3;
-AoA = 20;
-BL_size  = 0.0001;
+BL = 0.08;
+AoA = 2;
+BL_size  = 1e-05;
 BL_thickness = 0.01;
-BL_ratio = 1.07;
-progsW = 1.1;
-prognW = 1.02333;
-numW = 50;
-nblW = 91;
-hrat = 10;
+BL_ratio = 1.119;
+progsWfwd = 1.09;
+progsWaft = 1.001;
+prognW = 1.2875;
+numWfwd = 42;
+numWaft = 348;
+nblW = 13;
+hrat = 20;
 // =====================================POINTS
 Point(1) = {1, 0, 0.0, 1*h};
 Point(2) = {0.994046, 0.00127452, 0.0, 1*h};
@@ -221,25 +223,27 @@ Point(201) = {1, 0, 0.0, 1*h};
 
  // farfield
 Point(203) = {0.5, 0, 0,H};
-Point(204) = {R+0.5, 0, 0,H};
+Point(204) = {R+0.5, 0, 0,1/10*H};
 Point(205) = {0.5, R, 0,H};
 Point(206) = {0.5-R, 0, 0,H};
 Point(207) = {0, -R, 0,H};
-Point(208) = {R+0.5,  -D+BL, 0,1/5*H};
+Point(208) = {R+0.5,  -D+BL, 0,1/10*H};
 Point(209) = {1, -D+BL, 0,1/5*H};
 Point(210) = {0, -D+BL, 0,1/5*H};
-Point(211) = {0.5-R, -D+BL, 0,1/5*H};
+Point(211) = {0.5-R, -D+BL, 0,H};
 Point(212) = {R+0.5,  -D, 0,1/5*H};
 Point(213) = {0.5-R, -D, 0,1/5*H};
 Point(214) = {1, -D, 0,1/5*H};
 Point(215) = {0, -D, 0,1/5*H};
+Point(216) = {1.2, -0.0261614, 0,2*h};
+Point(217) = {1.4, -0.0261614, 0,3*h};
 
 
 // =====================================CURVES
 
 Spline(1) = {1:46};
 Spline(2) = {46:101};
-Spline(3) = {101:200, 1};
+Spline(3) = {1 :200, 1};
 
  // farfield
 Circle(5) = {204,203,205};
@@ -257,21 +261,21 @@ Line(17) = {215,213};
 Line(18) = {209,214};
 Line(19) = {210,215};
 Transfinite Line{9 , 16} = 1/h/hrat Using Progression 1;
-Transfinite Line{8 , 15} = numW Using Progression 1/progsW;
-Transfinite Line{10 , 17} = numW Using Progression progsW;
+Transfinite Line{8 , 15} = numWaft Using Progression 1/progsWaft;
+Transfinite Line{10 , 17} = numWfwd Using Progression progsWfwd;
 Transfinite Line{13 , 18, 19} =  nblW Using Progression 1/prognW;
 Transfinite Line{14} =  nblW Using Progression prognW;
 
 
 // =====================================LOOPS
 
-Line Loop(1) = {1,2,3};
+Line Loop(1) = {3};
 Line Loop(2) = {-11,-10,-9,-8,-7,5,6};
 Line Loop(3) = {-10,19,17,14};
 Line Loop(4) = {-9,18,16,-19};
 Line Loop(5) = {-8,13,15,-18};
-Rotate {{0, 0, -1}, {0.5, 0, 0}, Pi * AoA / 180} 
- {Curve{2}; Curve{1}; Curve{3};}
+Rotate {{0, 0, -1}, {0.25, 0, 0}, Pi * AoA / 180} 
+ {Curve{3};}
 
 
 // =====================================SURFS
@@ -286,8 +290,10 @@ Transfinite Surface{3};
 Plane Surface(4) = {5};
 Transfinite Surface{4};
  Recombine Surface{4};
+Point{216} In Surface{1};
+Point{217} In Surface{1};
 Field[1]=BoundaryLayer;
-Field[1].CurvesList={1,2,3};
+Field[1].CurvesList={3};
 Field[1].Quads=1;
 Field[1].Ratio= BL_ratio;
 Field[1].Size=BL_size;
@@ -295,10 +301,10 @@ Field[1].Thickness=BL_thickness;
 Field[1].FanPointsList={1};
 Field[1].FanPointsSizesList={40};
 BoundaryLayer Field = 1;
-Physical Surface(1) = {1,2,3,4};
+Physical Surface(1) = {3,4};
 Physical Line("FARFIELD") = {14,11,6,5,7,13};
 Physical Line("WALL") = {15,16,17};
-Physical Line("AIRFOIL") = {1,2,3};
+Physical Line("AIRFOIL") = {3};
 
 
 // 1: MeshAdapt, 2: Automatic, 3: Initial mesh only, 5: Delaunay, 6: Frontal-Delaunay, 7: BAMG, 8: Frontal-Delaunay for Quads, 9: Packing of Parallelograms
