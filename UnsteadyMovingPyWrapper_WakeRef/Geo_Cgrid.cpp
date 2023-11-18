@@ -60,8 +60,7 @@ fileName = "C:/Bash/SU2/GIT_CFD/CFD_progetto/Utils/createGEO/txt_dat/main.dat";*
     }
 
     void loadPoints() {
-LEspacing = 0.2;
-TEspacing = 0.8;
+
         fileName = "txt_dat/main.dat";
         isProfile = true;
 
@@ -148,6 +147,8 @@ TEspacing = 0.8;
 
     void printFile() {
         
+        LEspacing = 0.2;
+        TEspacing = 0.8;
 
                 /*FARFIELD*/
         H = 1;
