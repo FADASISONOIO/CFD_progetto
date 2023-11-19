@@ -1,0 +1,16 @@
+=================== C Grid generation ======================
+== PER CONFIGURAZIONE MODIFICARE FILE .cpp A QUESTE RIGHE ==
+ 
+- seed airfoil dentro la cartella txt_dat -> linea 65
+- parametri mesh -> linea 214 - 225
+
+R 			: : : Raggio farfield
+D 			: : : Distanza dal suolo
+npw , npS, npP, npD 	: : : N. nodi mesh nelle direzioni
+				W -> tra profilo e farfield
+				S -> 1/2 nodi sul dorso
+				P -> nodi sul ventr
+				D -> tra profilo e suolo
+
+
+- per meshare basta ./allrun dalla cartella createCgrid
