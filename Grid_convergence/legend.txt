@@ -1,0 +1,10 @@
+ultrasmall	18000		0.024
+small		30000		0.012
+ultracoarse	50000		0.006
+coarse		100000		0.003
+medium		220000		0.0015
+fine		500000		0.00075
+extrafine		800000		0.0005625
+megafine		1100000		0.00045
+ultrafine		1500000		0.000375
+iperfine		2000000		0.0003
