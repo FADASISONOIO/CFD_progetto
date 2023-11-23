@@ -1,0 +1,5 @@
+30 corde: Cl = 0.249565
+45 corde: Cl = 0.251434
+60 corde: Cl = 0.252643
+75 corde: Cl = 0.253344
+80 corde: Cl = 0.253270
