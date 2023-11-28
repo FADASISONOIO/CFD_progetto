@@ -13,7 +13,7 @@ private:
     bool isProfile;
 public:
     string fileName;
-    double RotPoint,LEspacing,TEspacing,wall_BL_size,hpp,H,R,D,BL,AoA,BL_size,BL_thickness,BL_ratio,progsWfwd,progsWaft,prognW,numWfwd,numWaft,nblW,hrat;
+    double LEspacing,RotPoint,TEspacing,wall_BL_size,hpp,H,R,D,BL,AoA,BL_size,BL_thickness,BL_ratio,progsWfwd,progsWaft,prognW,numWfwd,numWaft,nblW,hrat;
 
     Helper() : fileName(), LEspacing(1), TEspacing(1), nPoints(0), coordinates(nullptr) {};
     ~Helper() {
@@ -150,26 +150,26 @@ TEspacing = 0.02;
         
 
                 /*FARFIELD*/
-        H = 1;
+        H = 0.5;
 
-        R = 30;      /* Raggio C*/
+        R = 10;      /* Raggio C*/
 
                 /*PROFILO*/     
         RotPoint = 1;
-        hpp = 0.00075;     /* h piccolo dim triangoli appena fuori bl profilo*/
+        hpp = 0.0012;     /* h piccolo dim triangoli appena fuori bl profilo*/
         D = 0.5;      /* Distanza dal muro*/
-        AoA = 0;  /* Angolo di attacco in deg*/
-        BL_size  = 0.00002;  /*Size prima cella BL*/
+        AoA = 2;  /* Angolo di attacco in deg*/
+        BL_size  = 0.00001;  /*Size prima cella BL*/
         BL_thickness = 0.01; /*Spessore BL profilo*/
         /*viene calcolato*/
         BL_ratio = 1 + (hpp - BL_size)/BL_thickness;  /*rapporto spessori BL profilo*/
 
                 /* STRUTTURATA MURO*/
-        hrat = 15; /* Rapporto tra h sul pezzo centrale del muro e h sul profilo*/
+        hrat = 20; /* Rapporto tra h sul pezzo centrale del muro e h sul profilo*/
         BL = 0.08;   /* Spessore layer vicino al muro*/
-        wall_BL_size = 0.00002;   /*wall cell thickness*/
-        progsWfwd = 1.01;  /*infittimento bounday muro in stramwise*/
-        progsWaft = 1.01;  /*infittimento bounday muro in stramwise*/
+        wall_BL_size = 0.001;   /*wall cell thickness*/
+        progsWfwd = 1.09;  /*infittimento bounday muro in stramwise*/
+        progsWaft = 1.001;  /*infittimento bounday muro in stramwise*/
         /* vengono calcolati*/
         prognW = 1 + (hpp*hrat - wall_BL_size)/BL;  /*n layer muro*/
         nblW = ceil(log(hpp*hrat/wall_BL_size)/(log(prognW)));  /*infittimento bounday muro in wall normal*/
@@ -298,8 +298,8 @@ TEspacing = 0.02;
                 output << "Point(" << nPoints + 14 << ") = {0, -D, 0,1/5*H};\n";      
                 output << "Point(" << nPoints + 15 << ") = {1.1, " << (RotPoint-1)*sin(AoA*3.14/180) <<", 0,2*h};\n";      
                 output << "Point(" << nPoints + 16 << ") = {1.2, " << (RotPoint-1)*sin(AoA*3.14/180) <<", 0,3*h};\n";  
-                output << "Point(" << nPoints + 15 << ") = {1.3, " << (RotPoint-1)*sin(AoA*3.14/180) <<", 0,3*h};\n";      
-                output << "Point(" << nPoints + 16 << ") = {1.5, " << (RotPoint-1)*sin(AoA*3.14/180) <<", 0,4*h};\n";      
+                output << "Point(" << nPoints + 17 << ") = {1.3, " << (RotPoint-1)*sin(AoA*3.14/180) <<", 0,3*h};\n";      
+                output << "Point(" << nPoints + 18 << ") = {1.5, " << (RotPoint-1)*sin(AoA*3.14/180) <<", 0,4*h};\n";      
                 
 
                 output << "\n\n// =====================================CURVES\n\n";
@@ -393,6 +393,8 @@ TEspacing = 0.02;
                 output << "Transfinite Surface{4};\n Recombine Surface{4};\n";
                 output << "Point{" << nPoints + 15 << "} In Surface{" << 1 <<"};\n";
                 output << "Point{" << nPoints + 16 << "} In Surface{" << 1 <<"};\n";
+                output << "Point{" << nPoints + 17 << "} In Surface{" << 1 <<"};\n";
+                output << "Point{" << nPoints + 18 << "} In Surface{" << 1 <<"};\n";
                 // ==================================BOUNDARY LAYER
                 output << "Field[1]=BoundaryLayer;\n";
                 output << "Field[1].CurvesList={3};\n";
