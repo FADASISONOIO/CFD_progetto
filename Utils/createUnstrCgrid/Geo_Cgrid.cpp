@@ -150,13 +150,13 @@ TEspacing = 0.02;
         
 
                 /*FARFIELD*/
-        H = 1
+        H = 1;
 
         R = 30;      /* Raggio C*/
 
                 /*PROFILO*/     
         RotPoint = 1;
-        hpp = 0.00075    /* h piccolo dim triangoli appena fuori bl profilo*/
+        hpp = 0.00075;   /* h piccolo dim triangoli appena fuori bl profilo*/
         D = 1;      /* Distanza dal muro*/
         AoA = 0;  /* Angolo di attacco in deg*/
         BL_size  = 0.00001;  /*Size prima cella BL*/
