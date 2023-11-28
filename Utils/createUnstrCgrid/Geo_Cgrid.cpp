@@ -155,6 +155,7 @@ TEspacing = 0.02;
         R = 10;      /* Raggio C*/
 
                 /*PROFILO*/     
+        RotPoint = 1;
         hpp = 0.0012;     /* h piccolo dim triangoli appena fuori bl profilo*/
         D = 0.5;      /* Distanza dal muro*/
         AoA = 2;  /* Angolo di attacco in deg*/
@@ -250,6 +251,7 @@ TEspacing = 0.02;
             output << "// ===========================================\n\n";
 
             if (isProfile) {
+                output << "RotPoint = " << RotPoint <<";\n"
                 output << "h = " << hpp << ";\n";
                 /*FARFIELD*/
                 output << "H = " << H << ";\n";
@@ -294,8 +296,10 @@ TEspacing = 0.02;
                 output << "Point(" << nPoints + 12 << ") = {0.5-R, -D, 0,1/5*H};\n";  
                 output << "Point(" << nPoints + 13 << ") = {1, -D, 0,1/5*H};\n";
                 output << "Point(" << nPoints + 14 << ") = {0, -D, 0,1/5*H};\n";      
-                output << "Point(" << nPoints + 15 << ") = {1.2, " << -0.75*sin(AoA*3.14/180) <<", 0,2*h};\n";      
-                output << "Point(" << nPoints + 16 << ") = {1.4, " << -0.75*sin(AoA*3.14/180) <<", 0,3*h};\n";      
+                output << "Point(" << nPoints + 15 << ") = {1.1, " << (RotPoint-1)*sin(AoA*3.14/180) <<", 0,2*h};\n";      
+                output << "Point(" << nPoints + 16 << ") = {1.2, " << (RotPoint-1)*sin(AoA*3.14/180) <<", 0,3*h};\n";  
+                output << "Point(" << nPoints + 15 << ") = {1.3, " << (RotPoint-1)*sin(AoA*3.14/180) <<", 0,3*h};\n";      
+                output << "Point(" << nPoints + 16 << ") = {1.5, " << (RotPoint-1)*sin(AoA*3.14/180) <<", 0,4*h};\n";      
                 
 
                 output << "\n\n// =====================================CURVES\n\n";
@@ -374,7 +378,7 @@ TEspacing = 0.02;
                 output << "Line Loop(4) = {-9,18,16,-19};\n";
                 output << "Line Loop(5) = {-8,13,15,-18};\n";
 
-                output << "Rotate {{0, 0, -1}, {0.25, 0, 0}, Pi * AoA / 180} \n {Curve{3};}\n";
+                output << "Rotate {{0, 0, -1}, {" << RotPoint <<", 0, 0}, Pi * AoA / 180} \n {Curve{3};}\n";
 
 
 
