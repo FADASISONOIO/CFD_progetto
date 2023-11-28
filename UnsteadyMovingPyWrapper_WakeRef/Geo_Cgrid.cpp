@@ -61,7 +61,7 @@ fileName = "C:/Bash/SU2/GIT_CFD/CFD_progetto/Utils/createGEO/txt_dat/main.dat";*
 
     void loadPoints() {
 
-        fileName = "txt_dat/main.dat";
+        fileName = "txt_dat/p777.dat";
         isProfile = true;
 
         ifstream input(fileName);
