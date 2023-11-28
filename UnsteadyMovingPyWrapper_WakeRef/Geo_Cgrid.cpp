@@ -13,7 +13,7 @@ private:
     bool isProfile;
 public:
     string fileName;
-    double LEspacing,TEspacing,wall_BL_size,hpp,H,R,D,BL,AoA,BL_size,BL_thickness,BL_ratio,progsWfwd,progsWaft,prognW,numWfwd,numWaft,nblW,hrat;
+    double LEspacing,RotPoint,TEspacing,wall_BL_size,hpp,H,R,D,BL,AoA,BL_size,BL_thickness,BL_ratio,progsWfwd,progsWaft,prognW,numWfwd,numWaft,nblW,hrat;
 
     Helper() : fileName(), LEspacing(1), TEspacing(1), nPoints(0), coordinates(nullptr) {};
     ~Helper() {
@@ -55,13 +55,14 @@ public:
 
 /*
 fileName = "C:/Bash/SU2/GIT_CFD/CFD_progetto/Utils/createGEO/txt_dat/main.dat";*/
-
+LEspacing = 0.001;
+TEspacing = 0.02;
 
     }
 
     void loadPoints() {
 
-        fileName = "txt_dat/p777.dat";
+        fileName = "txt_dat/777.dat";
         isProfile = true;
 
         ifstream input(fileName);
@@ -147,25 +148,24 @@ fileName = "C:/Bash/SU2/GIT_CFD/CFD_progetto/Utils/createGEO/txt_dat/main.dat";*
 
     void printFile() {
         
-        LEspacing = 0.2;
-        TEspacing = 0.8;
 
                 /*FARFIELD*/
-        H = 1;
+        H = 0.5;
 
         R = 10;      /* Raggio C*/
 
                 /*PROFILO*/     
-        hpp = 0.0025;     /* h piccolo dim triangoli appena fuori bl profilo*/
+        RotPoint = 1;
+        hpp = 0.0012;     /* h piccolo dim triangoli appena fuori bl profilo*/
         D = 0.5;      /* Distanza dal muro*/
-        AoA = 10;  /* Angolo di attacco in deg*/
+        AoA = 7;  /* Angolo di attacco in deg*/
         BL_size  = 0.00001;  /*Size prima cella BL*/
-        BL_thickness = 0.03; /*Spessore BL profilo*/
+        BL_thickness = 0.01; /*Spessore BL profilo*/
         /*viene calcolato*/
         BL_ratio = 1 + (hpp - BL_size)/BL_thickness;  /*rapporto spessori BL profilo*/
 
                 /* STRUTTURATA MURO*/
-        hrat = 10; /* Rapporto tra h sul pezzo centrale del muro e h sul profilo*/
+        hrat = 20; /* Rapporto tra h sul pezzo centrale del muro e h sul profilo*/
         BL = 0.08;   /* Spessore layer vicino al muro*/
         wall_BL_size = 0.001;   /*wall cell thickness*/
         progsWfwd = 1.09;  /*infittimento bounday muro in stramwise*/
@@ -251,6 +251,7 @@ fileName = "C:/Bash/SU2/GIT_CFD/CFD_progetto/Utils/createGEO/txt_dat/main.dat";*
             output << "// ===========================================\n\n";
 
             if (isProfile) {
+                output << "RotPoint = " << RotPoint <<";\n";
                 output << "h = " << hpp << ";\n";
                 /*FARFIELD*/
                 output << "H = " << H << ";\n";
@@ -295,8 +296,10 @@ fileName = "C:/Bash/SU2/GIT_CFD/CFD_progetto/Utils/createGEO/txt_dat/main.dat";*
                 output << "Point(" << nPoints + 12 << ") = {0.5-R, -D, 0,1/5*H};\n";  
                 output << "Point(" << nPoints + 13 << ") = {1, -D, 0,1/5*H};\n";
                 output << "Point(" << nPoints + 14 << ") = {0, -D, 0,1/5*H};\n";      
-                output << "Point(" << nPoints + 15 << ") = {1.2, " << -0.75*sin(AoA*3.14/180) <<", 0,2*h};\n";      
-                output << "Point(" << nPoints + 16 << ") = {1.4, " << -0.75*sin(AoA*3.14/180) <<", 0,3*h};\n";      
+                output << "Point(" << nPoints + 15 << ") = {1.1, " << (RotPoint-1)*sin(AoA*3.14/180) <<", 0,2*h};\n";      
+                output << "Point(" << nPoints + 16 << ") = {1.2, " << (RotPoint-1)*sin(AoA*3.14/180) <<", 0,3*h};\n";  
+                output << "Point(" << nPoints + 17 << ") = {1.3, " << (RotPoint-1)*sin(AoA*3.14/180) <<", 0,3*h};\n";      
+                output << "Point(" << nPoints + 18 << ") = {1.5, " << (RotPoint-1)*sin(AoA*3.14/180) <<", 0,4*h};\n";      
                 
 
                 output << "\n\n// =====================================CURVES\n\n";
@@ -375,7 +378,7 @@ fileName = "C:/Bash/SU2/GIT_CFD/CFD_progetto/Utils/createGEO/txt_dat/main.dat";*
                 output << "Line Loop(4) = {-9,18,16,-19};\n";
                 output << "Line Loop(5) = {-8,13,15,-18};\n";
 
-                output << "Rotate {{0, 0, -1}, {0.25, 0, 0}, Pi * AoA / 180} \n {Curve{3};}\n";
+                output << "Rotate {{0, 0, -1}, {" << RotPoint <<", 0, 0}, Pi * AoA / 180} \n {Curve{3};}\n";
 
 
 
@@ -390,6 +393,8 @@ fileName = "C:/Bash/SU2/GIT_CFD/CFD_progetto/Utils/createGEO/txt_dat/main.dat";*
                 output << "Transfinite Surface{4};\n Recombine Surface{4};\n";
                 output << "Point{" << nPoints + 15 << "} In Surface{" << 1 <<"};\n";
                 output << "Point{" << nPoints + 16 << "} In Surface{" << 1 <<"};\n";
+                output << "Point{" << nPoints + 17 << "} In Surface{" << 1 <<"};\n";
+                output << "Point{" << nPoints + 18 << "} In Surface{" << 1 <<"};\n";
                 // ==================================BOUNDARY LAYER
                 output << "Field[1]=BoundaryLayer;\n";
                 output << "Field[1].CurvesList={3};\n";
