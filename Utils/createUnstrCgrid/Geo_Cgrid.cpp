@@ -13,7 +13,7 @@ private:
     bool isProfile;
 public:
     string fileName;
-    double LEspacing,TEspacing,wall_BL_size,hpp,H,R,D,BL,AoA,BL_size,BL_thickness,BL_ratio,progsWfwd,progsWaft,prognW,numWfwd,numWaft,nblW,hrat;
+    double RotPoint,LEspacing,TEspacing,wall_BL_size,hpp,H,R,D,BL,AoA,BL_size,BL_thickness,BL_ratio,progsWfwd,progsWaft,prognW,numWfwd,numWaft,nblW,hrat;
 
     Helper() : fileName(), LEspacing(1), TEspacing(1), nPoints(0), coordinates(nullptr) {};
     ~Helper() {
@@ -251,7 +251,7 @@ TEspacing = 0.02;
             output << "// ===========================================\n\n";
 
             if (isProfile) {
-                output << "RotPoint = " << RotPoint <<";\n"
+                output << "RotPoint = " << RotPoint <<";\n";
                 output << "h = " << hpp << ";\n";
                 /*FARFIELD*/
                 output << "H = " << H << ";\n";
