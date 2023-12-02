@@ -1,0 +1,13 @@
+CL-ALPHA: 
+
+D=0.1, hpp=0.00075, nelementi=500000, hrat=5, Uinf=50, R=30
+
+Dcorretto= 0.15923600 alpha= 0 cl= -0.147415 cd= 0.019045
+Dcorretto= 0.13733451 alpha= 2 cl= +0.317107 cd= 0.018444
+Dcorretto= 0.116844281451454 alpha= 4 cl= 0.700351 cd= 0.025394
+Dcorretto= 0.1 alpha= 6 cl= 0.996172 cd= 0.038792
+Dcorretto= 0.1 alpha= 8 cl= 1.195895 cd= 0.057867
+Dcorretto= 0.1 alpha= 10 cl= 1.338029 cd= 0.083637
+Dcorretto= 0.1 alpha= 12 cl= cd=
+
+
