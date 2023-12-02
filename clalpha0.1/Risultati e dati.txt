@@ -9,5 +9,5 @@ Dcorretto= 0.1 alpha= 6 cl= 0.996172 cd= 0.038792
 Dcorretto= 0.1 alpha= 8 cl= 1.195895 cd= 0.057867
 Dcorretto= 0.1 alpha= 10 cl= 1.338029 cd= 0.083637
 Dcorretto= 0.1 alpha= 12 cl= 1.4301 cd= 0.1188, l'ho fermato a rms -7.7, probabilmente stallato, provo alpha 11
-Dcorretto= 0.1 alpha= 11 cl= cd=
+Dcorretto= 0.1 alpha= 11 cl= 1.391967 cd= 0.098987
 
