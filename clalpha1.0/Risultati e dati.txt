@@ -8,10 +8,4 @@ Dcorretto= 1.016844281451454 alpha= 4 cl= 0.620066  cd= 0.025858
 Dcorretto= 1.0 alpha= 6  cl= 0.803622  cd= 0.039960
 Dcorretto= 1.0 alpha= 8  cl= 0.967962  cd= 0.058766
 Dcorretto= 1.0 alpha= 10 cl= 1.107084  cd= 0.082222
-
-
-Dcorretto= 1.0 alpha= 12 cl=  cd= , ha impiegato molto a stabilizzarsi, provo alpha 11
-
-Dcorretto= 0.1 alpha= 11 cl= 1.391967 cd= 0.098987
-
-Dcorretto= 0.1 alpha= 13 cl= 1.486585 cd= 0.135338, ho stoppato dopo 5500 iter circa 4 ore :O
+Dcorretto= 1.0 alpha= 12 cl= 1.227680  cd= 0.109352
