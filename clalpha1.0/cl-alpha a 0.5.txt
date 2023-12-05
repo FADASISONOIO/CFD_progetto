@@ -1,0 +1,10 @@
+CL-ALPHA:
+D=0.5, hpp=0.00075, nelementi=500000, hrat=15, Uinf=50, R=30 
+
+Dcorretto= 0.55923600 alpha= 0 cl= 0.180357 cd= 0.015829 yplusmax=0.7
+Dcorretto=0.537334511755264 alpha= 2 cl= 0.422957 cd= 0.017967 yplusmax=0.84
+Dcorretto= 0.516844281451454 alpha= 4 cl= 0.642117 cd= 0.025935 yplusmax=0.847
+Dcorretto= 0.5 alpha= 6 cl= 0.838272 cd= 0.037280 yplusmax=0.84
+Dcorretto= 0.5 alpha= 8 cl= 1.002929 cd= 0.055716 yplusmax=0.91
+Dcorretto= 0.5 alpha= 10 cl= 1.138259 cd= 0.080900 yplusmax=1
+Dcorretto= 0.5 alpha= 12 cl=  1.249169 cd= 0.106670 yplusmax=0.56
