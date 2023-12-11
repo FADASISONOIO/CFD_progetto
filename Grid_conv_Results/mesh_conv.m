@@ -28,18 +28,18 @@ end
 %% plot
 
 figure(1)
-plot(hpp,CL,'o')
+plot(1./hpp,CL,'o')
 hold on
-plot(hpp,CL,'-')
+plot(1./hpp,CL,'-')
 grid on
-xlabel('h')
+xlabel('1/h')
 ylabel('CL')
 title('CL vs h')
     
 figure(2)
-plot(hpp(1:end),error,'o')
+plot(1./(hpp),error,'o')
 hold on
-plot(hpp(1:end),error,'-')
+plot(1./(hpp),error,'-')
 grid on
 xlabel('h')
 ylabel('Errore relativo %')
@@ -61,18 +61,18 @@ end
 %% plot
 
 figure(3)
-plot(hpp2,CL2,'o')
+plot(1./hpp2,CL2,'o')
 hold on
-plot(hpp2,CL2,'-')
+plot(1./hpp2,CL2,'-')
 grid on
 xlabel('h')
 ylabel('CL')
 title('CL vs h')
 
 figure(4)
-plot(hpp2(1:end),error2,'o')
+plot(1./hpp2(1:end),error2,'o')
 hold on
-plot(hpp2(1:end),error2,'-')
+plot(1./hpp2(1:end),error2,'-')
 grid on
 xlabel('h')
 ylabel('Errore relativo %')
