@@ -1,0 +1,18 @@
+Dcorretto= 1.059236000000000 alpha= 0 cl= 0.193612  cd= 0.015841 BL_size = 0.000003 Y+ = 0.67
+Dcorretto= 1.037334511755264 alpha= 2 cl= 0.412412  cd= 0.019242  BL_size = 0.000002  Y+ = 0.56
+Dcorretto= 1.016844281451454 alpha= 4 cl= 0.619657  cd= 0.026000 BL_size = 0.000002  Y+ = 0.67
+Dcorretto= 1.0 alpha= 6  cl= 0.802125   cd= 0.040299  BL_size = 0.000002  Y+ = 0.76
+Dcorretto= 1.0 alpha= 8  cl= 0.966877   cd= 0.059269  BL_size = 0.000001  Y+ = 0.44
+Dcorretto= 1.0 alpha= 10 cl= 1.110588   cd= 0.080843  BL_size = 0.000001  Y+ = 0.5
+Dcorretto= 1.0 alpha= 12 cl= 1.216267   cd= 0.114448  BL_size = 0.000001  Y+ = 0.54
+
+A 14 gradi non converge la mesh da 650.000 elementi, ho arrestato la simulazione a rms(rho) =  -8.729653 dopo circa 8000 iterazioni
+
+Dcorretto= 1.0 alpha= 14 cl= 1.309154    cd=  0.145236   BL_size = 0.000001  Y+ = 0.59
+
+Il dato sul cl non è affidabile perchè in continuo aumento (in 2500 iter è passato da 1.301 a 1.309), il cd è invece affidabile
+
+
+Ripeto la simulazione a 14 gradi con 535.000 elementi e hpp = 0.00085:
+
+Dcorretto= 1.0 alpha= 14 cl= 1.305708   cd= 0.147260  BL_size = 0.0000014  Y+ = 0.81

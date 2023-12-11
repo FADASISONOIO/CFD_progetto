@@ -1,0 +1,14 @@
+CL-ALPHA: 
+
+D=0.1, hpp=0.00075, nelementi=500000, hrat=5, Uinf=50, R=30
+
+Dcorretto= 0.15923600 alpha= 0 cl= -0.147565 cd= 0.019387 size_prima_cella= 0.000002 yplus= 0.74
+Dcorretto= 0.137334511755264 alpha= 2 cl= 0.316532 cd= 0.018657 size_prima_cella= 0.000002 yplus= 0.58
+Dcorretto= 0.116844281451454 alpha= 4 cl= 0.699103 cd= 0.025573 size_prima_cella= 0.000002 yplus= 0.7
+Dcorretto= 0.1 alpha= 6 cl= 0.995118  cd= 0.038896 size_prima_cella= 0.000002 yplus= 0.83
+Dcorretto= 0.1 alpha= 8 cl= 1.194940 cd= 0.057986 size_prima_cella= 0.000002 yplus= 0.96
+Dcorretto= 0.1 alpha= 10 cl= 1.337809 cd= 0.083926 size_prima_cella= 0.000001 yplus= 0.89
+Dcorretto= 0.1 alpha= 11 cl= 1.391455 cd= 0.099289 size_prima_cella= 0.0000008 yplus= 0.91
+Dcorretto= 0.1 alpha= 12 cl= 1.443581 cd= 0.118325 size_prima_cella= 0.0000006 yplus= 0.92
+Dcorretto= 0.1 alpha= 13 cl= 1.484680 cd= 0.135485 size_prima_cella= 0.0000005 yplus= 0.93
+Dcorretto= 0.1 alpha= 14 cl= 1.514064 cd= 0.159224 size_prima_cella= 0.0000005 yplus= 0.93
