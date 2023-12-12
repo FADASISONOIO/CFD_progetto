@@ -1,5 +1,0 @@
-#!/bin/bash
-g++ -o Cgrid.exe Geo_Cgrid.cpp
-./Cgrid.exe
-gmsh -2 -format su2 mesh.geo
-

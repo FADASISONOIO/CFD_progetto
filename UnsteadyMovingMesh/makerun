@@ -1,2 +1,0 @@
-#!/bin/bash
-mpirun -np 5 SU2_CFD inc_ground.cfg 
