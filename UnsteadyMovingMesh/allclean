@@ -1,0 +1,4 @@
+#!/bin/bash
+rm *.vtu
+rm *.csv
+rm *.dat
