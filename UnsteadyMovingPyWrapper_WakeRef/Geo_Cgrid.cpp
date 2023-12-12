@@ -62,7 +62,11 @@ TEspacing = 0.02;
 
     void loadPoints() {
 
+<<<<<<< HEAD
         fileName = "txt_dat/777.dat";
+=======
+        fileName = "txt_dat/main.dat";
+>>>>>>> parent of dba0af1 (update)
         isProfile = true;
 
         ifstream input(fileName);
