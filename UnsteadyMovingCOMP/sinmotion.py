@@ -112,7 +112,7 @@ def main():
 
   while (TimeIter < nTimeIter):
     # Define the rigid body displacement and set the new coords of each node on the marker
-    Timestart = 0.7
+    Timestart = 0.1
     Timestop = 1.7
     Velocity = -0.3
     pos_y = (time > Timestart)*(time < Timestop)*(time - Timestart) * Velocity + Velocity * (Timestop - Timestart) * (time >= Timestop)
