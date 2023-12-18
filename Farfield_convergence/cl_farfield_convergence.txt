@@ -1,3 +1,5 @@
+D=0.5, alpha=0
+
 30 corde: Cl = 0.249565
 45 corde: Cl = 0.251434
 60 corde: Cl = 0.252643
