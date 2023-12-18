@@ -34,7 +34,7 @@ plot(1./hpp,CL,'-')
 grid on
 xlabel('1/h')
 ylabel('CL')
-title('CL vs h')
+title('CL vs h lontano')
     
 figure(2)
 plot(1./(hpp),error,'o')
@@ -43,7 +43,7 @@ plot(1./(hpp),error,'-')
 grid on
 xlabel('h')
 ylabel('Errore relativo %')
-title('Grid convergence')
+title('Grid convergence lontano')
 
 
 %% mesh convergence, D=0.1, alpha=5, hrat=5
@@ -67,7 +67,7 @@ plot(1./hpp2,CL2,'-')
 grid on
 xlabel('h')
 ylabel('CL')
-title('CL vs h')
+title('CL vs h vicino')
 
 figure(4)
 plot(1./hpp2(1:end),error2,'o')
@@ -76,4 +76,4 @@ plot(1./hpp2(1:end),error2,'-')
 grid on
 xlabel('h')
 ylabel('Errore relativo %')
-title('Grid convergence')
+title('Grid convergence vicino')
