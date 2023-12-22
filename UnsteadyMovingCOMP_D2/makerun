@@ -1,2 +1,0 @@
-#!/bin/bash
-mpirun -np 10 --use-hwthread-cpus python3 -m mpi4py sinmotion.py -f inc_ground.cfg --parallel 

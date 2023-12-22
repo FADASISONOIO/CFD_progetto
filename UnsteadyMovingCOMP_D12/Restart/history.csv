@@ -1,0 +1,2 @@
+"Time_Iter","Outer_Iter","Inner_Iter",    "rms[Rho]"    ,    "rms[RhoU]"   ,    "rms[RhoV]"   ,    "rms[RhoE]"   ,     "rms[k]"     ,     "rms[w]"     
+          0,           0,         416,      -8.002733273,       -6.71198832,      -7.213273053,       -6.23035547,      -8.464576458,      -2.509850208
