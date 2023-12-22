@@ -34,7 +34,7 @@ plot(1./hpp,CL,'-')
 grid on
 xlabel('1/h')
 ylabel('CL')
-title('CL vs h')
+title('CL vs h lontano')
     
 figure(2)
 plot(1./(hpp),error,'o')
@@ -43,37 +43,58 @@ plot(1./(hpp),error,'-')
 grid on
 xlabel('h')
 ylabel('Errore relativo %')
-title('Grid convergence')
+title('Grid convergence lontano')
 
 
-%% mesh convergence, D=0.1, alpha=5, hrat=5
+%% ERRATA SOTTO QUELLA GIUSTA
+% mesh convergence, D=0.1, alpha=5, hrat=5
+% 
+% CL2 =  [0.836448, 0.838259, 0.843375, 0.843904, 0.843592];
+% ncelle2 =  [125000, 250000, 500000, 750000, 1000000];
+% hpp2 = [0.00275, 0.00135, 0.00075, 0.0006, 0.00055 ];
+% 
+% for i=1:length(CL2)
+%     err2 = 100 * abs(CL2(i)-CL2(end))/CL2(end);
+%     error2(i) = err2;
+% end
+% 
+% 
+% %% plot
+% 
+% figure(3)
+% plot(1./hpp2,CL2,'o')
+% hold on
+% plot(1./hpp2,CL2,'-')
+% grid on
+% xlabel('h')
+% ylabel('CL')
+% title('CL vs h vicino')
+% 
+% figure(4)
+% plot(1./hpp2(1:end),error2,'o')
+% hold on
+% plot(1./hpp2(1:end),error2,'-')
+% grid on
+% xlabel('h')
+% ylabel('Errore relativo %')
+% title('Grid convergence vicino')
 
-CL2 =  [0.836448, 0.838259, 0.843375, 0.843904, 0.843592];
-ncelle2 =  [125000, 250000, 500000, 750000, 1000000];
-hpp2 = [0.00275, 0.00135, 0.00075, 0.0006, 0.00055 ];
+%% GRID FINALE D=0.1 alpha=14
 
-for i=1:length(CL2)
-    err2 = 100 * abs(CL2(i)-CL2(end))/CL2(end);
-    error2(i) = err2;
+CL3 = [1.465877 1.486927 1.495889 1.494064];
+ncelle = [280000 470000 700000 1000000];
+hpp3 = [0.0015 0.001 0.00075 0.00063];
+
+for i=1:length(CL3)
+    err = 100 * abs(CL3(i)-CL3(end))/CL3(end);
+    error3(i) = err;
 end
 
-
-%% plot
-
 figure(3)
-plot(1./hpp2,CL2,'o')
+plot(1./hpp3,error3,'o')
 hold on
-plot(1./hpp2,CL2,'-')
+plot(1./hpp3,error3,'-')
 grid on
-xlabel('h')
-ylabel('CL')
-title('CL vs h')
-
-figure(4)
-plot(1./hpp2(1:end),error2,'o')
-hold on
-plot(1./hpp2(1:end),error2,'-')
-grid on
-xlabel('h')
+xlabel('1/h')
 ylabel('Errore relativo %')
 title('Grid convergence')

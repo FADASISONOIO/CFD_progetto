@@ -1,7 +1,7 @@
 clear all
 close all
 clc
-%% farfield convergence
+%% farfield convergence, D=0.5 alpha=0
 
 CL =  [0.249565, 0.251434, 0.252643, 0.253344, 0.253270];
 ncorde =  [30, 45, 60, 75, 80];
