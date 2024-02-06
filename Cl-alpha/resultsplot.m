@@ -27,6 +27,7 @@ altezze = [2, 1, 0.8, 0.5, 0.2, 0.1];
 CL_D_0 = [0.191757, 0.193612, 0.189896, 0.180357, 0.074707, -0.147565];
 CL_D_2 = [0.406343, 0.412412, 0.418207, 0.422957, 0.39846, 0.316532];
 CL_D_4 = [0.602691, 0.619657, 0.621676, 0.642117, 0.677395, 0.699103];
+CL_D_6 = [0.850888 , 0.802125, 0.868729, 0.893077, 0.986712,0.995118]; 
 CL_D_8 = [0.96, 0.966877, 0.985446, 1.002929, 1.091044, 1.194940];
 %% PLOT
 figure( "Name",'CL-ALPHA')
@@ -44,11 +45,11 @@ ylabel('$C_l$', 'Interpreter','latex')
 legend('$h/c= 1$','$h/c= 0.5$','$h/c= 0.2$','$h/c= 0.1$', 'Interpreter', 'latex' , 'Location','best')
 
 figure( "Name",'CL-D')
-plot( altezze, CL_D_0, 'rd-', altezze, CL_D_2, 'kd-', altezze, CL_D_4, 'gd-', altezze, CL_D_8, 'bd-')
+plot( altezze, CL_D_0, 'rd-', altezze, CL_D_2, 'kd-', altezze, CL_D_4, 'gd-', altezze, CL_D_6, 'yd-', altezze, CL_D_8, 'bd-')
 xlabel('$D$', 'Interpreter','latex')
 ylabel('$C_l$', 'Interpreter','latex')
 grid on
-legend('$\alpha = 0 ^\circ$', '$\alpha = 2 ^\circ$', '$\alpha = 4 ^\circ$', '$\alpha = 8 ^\circ$', 'Interpreter', 'latex', 'Location','best' )
+legend('$\alpha = 0 ^\circ$', '$\alpha = 2 ^\circ$', '$\alpha = 4 ^\circ$','$\alpha = 6 ^\circ$', '$\alpha = 8 ^\circ$', 'Interpreter', 'latex', 'Location','best' )
 
 %% MAPPA COLORATA
 

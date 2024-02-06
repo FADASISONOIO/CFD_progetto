@@ -91,6 +91,15 @@ for i=1:length(CL3)
 end
 
 figure(3)
+plot(1./hpp3,CL3,'o')
+hold on
+plot(1./hpp3,CL3,'-')
+grid on
+xlabel('1/h')
+ylabel('CL')
+title('CL vs h vicino')
+
+figure(4)
 plot(1./hpp3,error3,'o')
 hold on
 plot(1./hpp3,error3,'-')
